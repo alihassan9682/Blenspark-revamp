@@ -18,12 +18,13 @@ import Social from "./Components/Social";
 import Hero from "./Components/Hero";
 import HeroTech from "./Components/HeroTech";
 import Hero3D from "./Components/Hero3D";
+import Hero3D1 from "./Components/Hero3Dvideo";
 
 function App() {
   return (
     <Router>
       <div className="font-montserrat">
-        <div className="sticky top-0 z-50 bg-white opacity-95">
+        <div className="sticky top-0 z-50 bg-white opacity-75">
           <Header />
         </div>
 
@@ -31,11 +32,11 @@ function App() {
           <Route path="/" element={<Navigate to="/home" />} />
           <Route path="/home" element={<Hero />} />
           <Route path="/tech" element={<HeroTech />} />
-          <Route path="/3d-art" element={<Hero3D />} />
+          <Route path="/3d-art" element={<Hero3D1 />} />
           <Route path="/contact" element={<CardsSection />} />
           <Route path="/carousel" element={<CourselDemo />} />
           <Route path="/business" element={<ForBussiness />} />
-          <Route path="/about" element={<OneDriveSection />} />
+          <Route path="/about" element={<Hero3D />} />
           <Route path="/social" element={<Social />} />
           {/* Handle unknown routes */}
           <Route path="*" element={<Navigate to="/home" />} />
