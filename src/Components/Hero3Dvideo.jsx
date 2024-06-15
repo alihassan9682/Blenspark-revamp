@@ -1,12 +1,8 @@
 /** @format */
 
-import React, { useRef, useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import VD from "../assets/vd.mp4";
-
-
-/** @format */
-
 
 const Hero = () => {
   const navigate = useNavigate();
@@ -27,22 +23,16 @@ const Hero = () => {
         Your browser does not support the video tag.
       </video>
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-2xl text-center z-10">
-        <div className="logo text-6xl sm:text-7xl md:text-8xl lg:text-9xl mb-4 flex flex-row justify-center animate-float tracking-tighter">
-          <p className="text-cyan-600">Blen</p>
-          <p className="text-white">Spark 3D</p>
-        </div>
-        <div className="w-max flex text-center mt-2">
-          <p className="overflow-hidden whitespace-nowrap border-r-4 border-r-gray-700 pr-5 text-lg sm:text-xl md:text-2xl lg:text-3xl text-white animate-typing">
-            DESIGN.DEVELOP.DELIVER...
-          </p>
-        </div>
-        <div className="mt-8 text-sm sm:text-base md:text-lg lg:text-xl sm:px-16 md:px-18 lg:px-44">
-          Introducing BlenSpark: your one-stop digital solution provider. From
-          web and IT services to data analytics, 3D modeling, animation, and
-          advertising, we've got you covered. Our team delivers tailored
-          solutions that drive growth and captivate audiences across every
-          dimension. Partner with BlenSpark and unlock the power of integrated
-          digital innovation.
+        <div className="logo flex flex-col items-center text-center mb-4 animate-float tracking-tighter">
+          <div className="logo text-5xl sm:text-7xl md:text-8xl lg:text-9xl mb-4 animate-float tracking-tighter">
+            <div className="text-cyan-600">BlenSpark</div>
+            <div className="text-white">3D</div>
+          </div>
+          <div className="flex justify-center mt-2">
+            <p className="overflow-hidden whitespace-nowrap border-r-4 border-r-gray-700 pr-5 text-lg sm:text-xl md:text-2xl lg:text-3xl text-white animate-typing">
+              DESIGN.DEVELOP.DELIVER...
+            </p>
+          </div>
         </div>
         <div className="flex sm:flex-row justify-center gap-4 mt-8 sm:mt-12 md:mt-16 lg:mt-20">
           <button
@@ -53,10 +43,10 @@ const Hero = () => {
           </button>
           <div className="border-b sm:border-b-0 sm:border-l border-gray-400 mt-4 sm:mt-0"></div>
           <button
-            onClick={() => setCurrentHero("3d-art")}
+            onClick={() => setCurrentHero("tech")}
             className="relative flex justify-center hover:scale-110 items-center whitespace-nowrap hover:bg-gray-800 bg-gray-700 text-white py-2 px-4 w-32 sm:px-8 lg:px-10 rounded-lg transition duration-300 font-semibold text-base sm:text-xl lg:text-2xl"
           >
-            <span>3D</span>
+            <span>Tech</span>
           </button>
         </div>
       </div>

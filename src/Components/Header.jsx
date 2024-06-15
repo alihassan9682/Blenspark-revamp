@@ -54,7 +54,10 @@ const Header = () => {
             <p className="text-gray-700">Spark</p>
           </div>
         </div>
-        <div className="text-white whitespace-nowrap bg-cyan-600 hover:bg-cyan-700 rounded-full p-2 transform rotate-90 hover:scale-105 w-fit -ml-5 px-6 hover:cursor-pointer">
+        <div
+          className="text-white whitespace-nowrap bg-cyan-600 hover:bg-cyan-700 rounded-full p-2 transform rotate-90 hover:scale-105 w-fit -ml-5 px-6 hover:cursor-pointer"
+          onClick={() => navigate("/contact")}
+        >
           <div className="transform rotate-180">Lets Talk</div>
         </div>
       </div>
@@ -62,46 +65,21 @@ const Header = () => {
         <div className="flex justify-between items-center">
           <nav className="hidden sm:flex w-full justify-between my-2">
             <ul className="flex w-full justify-between text-cyan-600 text-lg sm:text-xl md:text-xl underline-offset-8 uppercase">
-              {["Home", "About", "Gallery", "Contact"].map((item) => (
+              {["Home", "About", "3D World", "Contact"].map((item) => (
                 <li
                   key={item}
                   className="flex items-center relative hover:cursor-pointer"
                 >
-                  {item === "Gallery" ? (
-                    <div className="relative" ref={dropdownRef}>
-                      <div
-                        onClick={toggleDropdown}
-                        className={`flex items-center hover:text-gray-700 ${
-                          selectedItem === item ? "text-gray-700 underline" : ""
-                        }`}
-                      >
-                        <span>{item}</span>
-                        <FaAngleDown className="ml-1" />
-                      </div>
-                      {isDropdownOpen && (
-                        <ul className="absolute left-0 mt-2 w-48 bg-white text-cyan-600 shadow-lg rounded-md normal-case border-r-4">
-                          {["Tech", "3D Art"].map((subItem) => (
-                            <li
-                              key={subItem}
-                              className="hover:text-cyan-400"
-                              onClick={() => handleDropdownOptionClick(subItem)}
-                            >
-                              {subItem}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  ) : (
-                    <NavLink
-                      to={`/${item.toLowerCase()}`}
-                      activeClassName="text-gray-700 underline"
-                      className="hover:text-gray-700"
-                      onClick={() => setSelectedItem(item)}
-                    >
-                      {item}
-                    </NavLink>
-                  )}
+                  <NavLink
+                    to={`/${item.toLowerCase()}`}
+                    activeClassName="text-gray-700 underline"
+                    className={`hover:text-gray-700  ${
+                      selectedItem === item ? "text-gray-700 underline" : ""
+                    }`}
+                    onClick={() => setSelectedItem(item)}
+                  >
+                    {item}
+                  </NavLink>
                   {item !== "Contact" && <span className="divider"></span>}
                 </li>
               ))}
@@ -127,49 +105,19 @@ const Header = () => {
           </div>
           <nav>
             <ul className="flex flex-col space-y-4 text-lg uppercase">
-              {["Home", "About", "Gallery", "Contact"].map((item) => (
+              {["Home", "About", "3D World", "Contact"].map((item) => (
                 <li key={item}>
-                  {item === "Gallery" ? (
-                    <div ref={dropdownRef}>
-                      <div
-                        onClick={toggleDropdown}
-                        className={`flex items-center hover:text-cyan-400 ${
-                          selectedItem === item ? "text-cyan-400 underline" : ""
-                        }`}
-                      >
-                        <span>{item}</span>
-                        <FaAngleDown className="ml-1" />
-                      </div>
-                      {isDropdownOpen && (
-                        <ul className="mt-2 bg-gray-800 p-2 rounded">
-                          {["Tech", "3D Art"].map((subItem) => (
-                            <li
-                              key={subItem}
-                              className="hover:text-cyan-400"
-                              onClick={() => {
-                                handleDropdownOptionClick(subItem);
-                                closeMenu();
-                              }}
-                            >
-                              {subItem}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  ) : (
-                    <NavLink
-                      to={`/${item.toLowerCase()}`}
-                      onClick={() => {
-                        setSelectedItem(item);
-                        closeMenu(); // Close the sidebar after selection
-                      }}
-                      activeClassName="text-cyan-400 underline"
-                      className="hover:text-cyan-400"
-                    >
-                      {item}
-                    </NavLink>
-                  )}
+                  <NavLink
+                    to={`/${item.toLowerCase()}`}
+                    onClick={() => {
+                      setSelectedItem(item);
+                      closeMenu(); // Close the sidebar after selection
+                    }}
+                    activeClassName="text-cyan-400 underline"
+                    className="hover:text-cyan-400"
+                  >
+                    {item}
+                  </NavLink>
                 </li>
               ))}
             </ul>
