@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { useState, useRef, useEffect } from "react";
-import { FaBars, FaTimes, FaAngleDown } from "react-icons/fa";
+import { FaBars, FaTimes } from "react-icons/fa";
 import { NavLink, useNavigate } from "react-router-dom";
 
 const Header = () => {

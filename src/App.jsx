@@ -13,14 +13,12 @@ import Footer from "./Components/Footer";
 import ForBussiness from "./Components/ForBussiness";
 import Header from "./Components/Header";
 import LogowithText from "./Components/LogowithText";
-import OneDriveSection from "./Components/OneDriveSection";
 import Social from "./Components/Social";
-import Hero from "./Components/Hero";
-import HeroTech from "./Components/HeroTech";
-import Hero3D from "./Components/Hero3D";
-import Hero3D1 from "./Components/Hero3Dvideo";
-import Contact from "./Components/contact"
-
+import Hero from "./Components/home/Hero";
+import HeroTech from "./Components/tech/HeroTech";
+import Hero3D from "./Components/3dworld/Hero3D";
+import Hero3D1 from "./Components/3dart/Hero3Dvideo";
+import Contact from "./Components/contact/contact";
 
 function App() {
   return (
