@@ -7,7 +7,7 @@ import ContactForm from "./contactForm";
 const App = () => {
   return (
     <div className="flex flex-col bg-gray-100 py-8">
-      <h1 className="text-5xl font-bold mb-8 text-center text-gray-600 mt-6">
+      <h1 className="text-5xl font-bold mb-8 text-center text-[#4a4a4a] mt-6">
         Let's BlenSpark assist you!
       </h1>
       <div className="flex justify-center mb-8">
@@ -19,7 +19,7 @@ const App = () => {
           <span className="text-gray-500 mx-4">or</span>
           <span className="border-b border-gray-300 w-1/5 lg:w-1/2"></span>
         </div>
-        <h2 className="text-4xl font-bold mb-4 text-center text-gray-600">
+        <h2 className="text-4xl font-bold mb-4 text-center text-[#4a4a4a]">
           Schedule a Meeting
         </h2>
         <div className="w-full  overflow-x-hidden">

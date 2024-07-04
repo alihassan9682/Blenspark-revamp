@@ -44,14 +44,13 @@ const Header = () => {
 
   return (
     <div className="flex">
-      {/* Sidebar */}
       <div className="hidden lg:flex fixed top-0 left-0 h-full w-20 bg-white text-white flex-col justify-evenly space-y-96 border-r">
         <div className="text-3xl font-extrabold rotate-180 hover:cursor-pointer">
           <div className="transform rotate-90 mt-12">
-            <p className="text-cyan-600">Blen</p>
+            <p className="text-[#359dad]">Blen</p>
           </div>
           <div className="transform rotate-90 mt-9">
-            <p className="text-gray-700">Spark</p>
+            <p className="text-[#4a4a4a]">Spark</p>
           </div>
         </div>
         <div
@@ -64,7 +63,7 @@ const Header = () => {
       <div className="flex-1 lg:ml-16 bg-transparent text-white p-4 sm:px-8 md:px-16 lg:px-24 xl:px-28">
         <div className="flex justify-between items-center">
           <nav className="hidden sm:flex w-full justify-between my-2">
-            <ul className="flex w-full justify-between text-cyan-600 text-lg sm:text-xl md:text-xl underline-offset-8 uppercase">
+            <ul className="flex w-full justify-between text-[#359dad] text-lg sm:text-xl md:text-xl underline-offset-8 uppercase">
               {["Home", "About", "3D World", "Contact"].map((item) => (
                 <li
                   key={item}
@@ -72,9 +71,9 @@ const Header = () => {
                 >
                   <NavLink
                     to={`/${item.toLowerCase()}`}
-                    activeClassName="text-gray-700 underline"
-                    className={`hover:text-gray-700  ${
-                      selectedItem === item ? "text-gray-700 underline" : ""
+                    activeClassName="text-[#4a4a4a] underline"
+                    className={`hover:text-[#4a4a4a]  ${
+                      selectedItem === item ? "text-[#4a4a4a] underline" : ""
                     }`}
                     onClick={() => setSelectedItem(item)}
                   >
@@ -87,7 +86,7 @@ const Header = () => {
           </nav>
           <div className="sm:hidden">
             <FaBars
-              className="text-3xl text-cyan-600 cursor-pointer"
+              className="text-3xl text-[#359dad] cursor-pointer"
               onClick={toggleMenu}
             />
           </div>
@@ -99,7 +98,7 @@ const Header = () => {
         >
           <div className="flex justify-end mb-4">
             <FaTimes
-              className="text-3xl text-cyan-600 cursor-pointer"
+              className="text-3xl text-[#359dad] cursor-pointer"
               onClick={closeMenu}
             />
           </div>

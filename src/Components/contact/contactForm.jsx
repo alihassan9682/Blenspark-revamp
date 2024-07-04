@@ -11,7 +11,7 @@ import {
 
 const ContactForm = () => {
   return (
-    <div className="w-full bg-cyan-600 shadow-2xl">
+    <div className="w-full bg-[#359dad] shadow-2xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-5 gap-8 sm:gap-12 md:gap-24 lg:gap-32 text-center mt-6">
           <div className="flex flex-col transform hover:scale-110 items-center">
