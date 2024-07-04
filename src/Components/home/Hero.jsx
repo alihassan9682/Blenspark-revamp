@@ -24,7 +24,7 @@ const Hero = () => {
 
   return (
     <div>
-      <div className="relative h-screen overflow-hidden">
+      <div className="relative h-screen overflow-hidden ">
         <video
           autoPlay
           loop
