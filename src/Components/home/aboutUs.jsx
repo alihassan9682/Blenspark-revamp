@@ -1,7 +1,7 @@
 /** @format */
 
 import React from 'react';
-import logo from '../../assets/logos/spotify-logo-png-7053.png'; // adjust the path to your logo image
+import logo from '../../assets/logos/15.png'; 
 
 const AboutUs = () => {
   return (

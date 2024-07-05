@@ -52,9 +52,9 @@ const MeetTheSparkers = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-gray-400 flex flex-col items-center py-12 px-4">
-      <h1 className="text-4xl md:text-5xl font-bold text-white text-center mb-4">Meet The Sparkers</h1>
-      <p className="text-lg text-teal-400 text-center mb-12 max-w-2xl">
+    <div className="w-full min-h-screen bg-white flex flex-col items-center py-12 px-4">
+      <h1 className="text-4xl md:text-5xl font-bold text-[#4a4a4a] text-center mb-4">Meet The Sparkers</h1>
+      <p className="text-lg text-[#359dad] text-center mb-12 ">
         At BlenSpark, we specialize in cutting-edge 3D and IT solutions that transform your ideas into immersive realities. Our expert team is dedicated to designing, developing, and delivering bespoke services that cater to a diverse range of industries. Whether it's crafting stunning 3D visualizations, developing robust software, or providing comprehensive IT support.
       </p>
       <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-center gap-8">

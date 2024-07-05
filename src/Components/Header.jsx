@@ -54,7 +54,7 @@ const Header = () => {
           </div>
         </div>
         <div
-          className="text-white whitespace-nowrap bg-cyan-600 hover:bg-cyan-700 rounded-full p-2 transform rotate-90 hover:scale-105 w-fit -ml-5 px-6 hover:cursor-pointer"
+          className="text-white whitespace-nowrap bg-[#359dad] hover:bg-cyan-700 rounded-full p-2 transform rotate-90 hover:scale-105 w-fit -ml-5 px-6 hover:cursor-pointer"
           onClick={() => navigate("/contact")}
         >
           <div className="transform rotate-180">Lets Talk</div>
@@ -64,7 +64,7 @@ const Header = () => {
         <div className="flex justify-between items-center">
           <nav className="hidden sm:flex w-full justify-between my-2">
             <ul className="flex w-full justify-between text-[#359dad] text-lg sm:text-xl md:text-xl underline-offset-8 uppercase">
-              {["Home", "About", "3D World", "Contact"].map((item) => (
+              {["Home", "Tech","3d-art", "3D World", "Contact"].map((item) => (
                 <li
                   key={item}
                   className="flex items-center relative hover:cursor-pointer"
@@ -104,7 +104,7 @@ const Header = () => {
           </div>
           <nav>
             <ul className="flex flex-col space-y-4 text-lg uppercase">
-              {["Home", "About", "3D World", "Contact"].map((item) => (
+              {["Home", "Tech","3d-art", "3D World", "Contact"].map((item) => (
                 <li key={item}>
                   <NavLink
                     to={`/${item.toLowerCase()}`}
