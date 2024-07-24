@@ -2,42 +2,47 @@ import React from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import IM from "../../assets/Cards/Projec.png"
+import Ali from "../../assets/Hero/ali.jpg";
+import Ahmad from "../../assets/Hero/ahmad.jpg";
+import Zaman from "../../assets/Hero/zaman.jpg";
+import Farrukh from "../../assets/Hero/farrukh.jpg";
 
 const teamMembers = [
   {
     name: 'Ali Hassan',
     position: 'Web Developer',
     description: 'I sculpt the digital universe, creating online wonders that captivate and inspire.',
-    img: IM,
+    img: Ali,
   },
   {
-    name: 'Farrukh Arshad',
+    name: 'Ahmad Nasir',
     position: 'Senior 3D Artist',
     description: 'I mold virtual realms, bringing imagination to life in the third dimension.',
-    img: IM,
+    img: Ahmad,
   },
   {
     name: 'Ali Zaman',
     position: 'Animation Specialist',
     description: 'I infuse motion into dreams, bringing characters and stories to life with every frame.',
-    img: IM,
+    img: Zaman,
   },
   {
-    name: 'Ahmad Nasir',
+    name: 'Farrukh Arshad',
     position: 'Senior Texturing Artist',
     description: 'I breathe life into the canvas of 3D worlds, adding depth and beauty with every stroke.',
-    img: IM,
+    img: Farrukh,
   },
 ];
 
 const TeamMemberCard = ({ name, position, description, img }) => (
-  <div className="relative bg-gray-200 rounded-lg overflow-hidden shadow-lg m-4 h-96 border border-">
-    <img src={img} alt={name} className="absolute inset-0 w-full h-full object-cover" />
-    <div className="relative p-6 h-full flex flex-col justify-end bg-gradient-to-t from-gray-900 via-gray-500 to-white opacity-30">
-      <h3 className="text-xl font-bold text-white mb-2">{name}</h3>
-      <h4 className="text-md font-semibold text-yellow-400 mb-4">{position}</h4>
-      <p className="text-sm text-white">{description}</p>
+  <div className="relative rounded-2xl overflow-hidden h-96 w-full md:w-80 lg:w-72 mx-auto p-4 flex justify-center">
+    <img src={img} alt={name} className="absolute h-full w-full object-contain" />
+    <div className="relative h-full flex flex-col justify-end ">
+      <div className="bg-white bg-opacity-80 p-4 rounded-lg">
+        <h3 className="text-xl font-bold text-[#4a4a4a] mb-2">{name}</h3>
+        <h4 className="text-md font-semibold text-[#359dad] mb-4">{position}</h4>
+        <p className="text-sm text-[#4a4a4a]">{description}</p>
+      </div>
     </div>
   </div>
 );
@@ -54,10 +59,10 @@ const MeetTheSparkers = () => {
   return (
     <div className="w-full min-h-screen bg-white flex flex-col items-center py-12 px-4">
       <h1 className="text-4xl md:text-5xl font-bold text-[#4a4a4a] text-center mb-4">Meet The Sparkers</h1>
-      <p className="text-lg text-[#359dad] text-center mb-12 ">
+      <p className="text-lg text-[#359dad] text-center mb-12 max-w-4xl">
         At BlenSpark, we specialize in cutting-edge 3D and IT solutions that transform your ideas into immersive realities. Our expert team is dedicated to designing, developing, and delivering bespoke services that cater to a diverse range of industries. Whether it's crafting stunning 3D visualizations, developing robust software, or providing comprehensive IT support.
       </p>
-      <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-center gap-8">
+      <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {teamMembers.map((member, index) => (
           <TeamMemberCard key={index} name={member.name} position={member.position} description={member.description} img={member.img} />
         ))}
@@ -65,7 +70,7 @@ const MeetTheSparkers = () => {
       <div className="md:hidden w-full">
         <Slider {...settings}>
           {teamMembers.map((member, index) => (
-            <div key={index}>
+            <div key={index} className="p-4">
               <TeamMemberCard name={member.name} position={member.position} description={member.description} img={member.img} />
             </div>
           ))}

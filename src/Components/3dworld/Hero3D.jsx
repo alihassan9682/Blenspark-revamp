@@ -2,6 +2,7 @@ import React, { Suspense, useRef, useState, useEffect } from "react";
 import Lottie from "react-lottie";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, useGLTF, useAnimations } from "@react-three/drei";
+import ComingSoon from "../comingSoon";
 import animation from "../../assets/Hero/Animation.json";
 import { useNavigate } from "react-router-dom";
 import CategoriesShowcase from './categories'
@@ -88,6 +89,7 @@ const Hero = () => {
             </button>
           </div>
         </div>
+        
         <div className="w-full lg:w-1/2 h-full flex justify-center items-center">
           <Canvas>
             <Suspense fallback={null}>
@@ -140,9 +142,14 @@ const Hero = () => {
         }
       `}</style>
       </div>
-      <CategoriesShowcase />
+      <ComingSoon />
+      {/* <CategoriesShowcase /> */}
     </div>
   );
 };
 
 export default Hero;
+
+
+// opb2sAQqP3DZnEGjGBiVIgrMJaE
+// https://res.cloudinary.com/duzgdiwwb/video/upload/v1721814164/8_jwglav.mp4

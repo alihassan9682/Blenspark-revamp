@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { Link, Element, scroller } from "react-scroll";
 
 // Import logos
 import imgSrc from "../../assets/logos/1.png";
@@ -24,10 +25,6 @@ import imgSrc18 from "../../assets/logos/19.png";
 import imgSrc19 from "../../assets/logos/20.png";
 import imgSrc20 from "../../assets/logos/21.png";
 
-// Import video source
-import videoSrc from "../../assets/ARVideos/8.mp4";
-
-// Import components (if not already imported)
 import Services from "./Services";
 import Packages from "./packages";
 import Projects from "./porjectsDelivered";
@@ -49,6 +46,14 @@ const Hero = () => {
     [imgSrc18, "h-10"], [imgSrc19, "h-10"], [imgSrc20, "h-16"]
   ];
 
+  const scrollToSection = (section) => {
+    scroller.scrollTo(section, {
+      duration: 800,
+      delay: 0,
+      smooth: 'easeInOutQuart'
+    });
+  };
+
   return (
     <div>
       <div className="relative h-screen overflow-hidden">
@@ -58,7 +63,7 @@ const Hero = () => {
           muted
           className="absolute inset-0 z-0 w-full h-full object-cover bg-white opacity-90"
         >
-          <source src={videoSrc} type="video/mp4" />
+          <source src="https://res.cloudinary.com/duzgdiwwb/video/upload/v1721814164/8_jwglav.mp4" type="video/mp4" />
         </video>
 
         <div className="relative z-10 flex flex-col items-center justify-center h-full p-8 sm:p-16 md:p-24 lg:p-32 text-center">
@@ -79,25 +84,25 @@ const Hero = () => {
           </div>
           <div className="flex flex-row justify-center gap-4 mt-8 sm:mt-12 md:mt-16 lg:mt-20">
             <button
-              onClick={() => setCurrentHero("schedule-a-call")}
+              onClick={() => setCurrentHero("contact")}
               className="bg-[#4a4a4a] text-white py-3 px-6 rounded-full transition duration-300 hover:opacity-80"
             >
               Schedule a Call
             </button>
             <button
-              onClick={() => setCurrentHero("see-our-work")}
+              onClick={() => scrollToSection("clients")}
               className="bg-[#359dad] text-white py-3 px-6 rounded-full transition duration-300 hover:opacity-80"
             >
               See Our Work
             </button>
           </div>
-          <div className="absolute bottom-0 left-0 right-0 flex mb-32">
+          <div className="absolute flex bottom-32">
             <div className="w-full relative">
-              <div className="absolute inset-0 bg-white opacity-50 py-12"></div>
+              <div className="absolute inset-0 bg-white opacity-50 "></div>
               <div className="relative z-10 -mt-5 logos-container">
                 <div className="logos-wrapper animate-slide items-center">
                   {logos.concat(logos).map((src, index) => (
-                    <img key={index} src={src[0]} alt={`Logo ${index + 1}`} className={`${src[1]} mx-10 mt-6`} />
+                    <img key={index} src={src[0]} alt={`Logo ${index + 1}`} className={`${src[1]} mx-10 -mb-6`} />
                   ))}
                 </div>
               </div>
@@ -114,7 +119,7 @@ const Hero = () => {
             position: relative;
             display: inline-block;
             color: #ffffff;
-            text-shadow: 1px 1px 2px #000000, 1px 1px 2px #000000, 1px 1px 3px #000000;
+            text-shadow: 1px 1px 2px #000000, 1px 1px 1px #000000, 1px 1px 1px #000000;
             transform: perspective(500px) rotateX(0deg) rotateY(-15deg) rotateZ(0deg);
           }
           @keyframes typing {
@@ -170,12 +175,25 @@ const Hero = () => {
           }
         `}</style>
       </div>
-      <Services />
-      <Packages />
-      <Clients />
-      <Projects />
-      <AboutUs />
-      <MeetTheSparkers />
+
+      <Element name="services">
+        <Services />
+      </Element>
+      <Element name="packages">
+        <Packages />
+      </Element>
+      <Element name="clients">
+        <Clients />
+      </Element>
+      <Element name="projects">
+        <Projects />
+      </Element>
+      <Element name="aboutUs">
+        <AboutUs />
+      </Element>
+      <Element name="meetTheSparkers">
+        <MeetTheSparkers />
+      </Element>
     </div>
   );
 };

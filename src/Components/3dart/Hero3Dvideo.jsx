@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import ComingSoon from "../comingSoon";
 import VD from "../../assets/vd.mp4";
 
 const Hero = () => {
@@ -12,7 +13,8 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative w-full h-screen overflow-hidden">
+    <div className="w-full">
+      <div className="relative w-full h-screen overflow-hidden">
       <video
         autoPlay
         loop
@@ -86,6 +88,8 @@ const Hero = () => {
           }
         }
       `}</style>
+      </div>
+      <ComingSoon/>
     </div>
   );
 };

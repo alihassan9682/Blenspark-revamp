@@ -4,6 +4,8 @@ import React, { useEffect } from "react";
 import Lottie from "react-lottie";
 import animation from "../../assets/Hero/Animation.json";
 import { useNavigate } from "react-router-dom";
+import ComingSoon from "../comingSoon";
+import { div } from "three/examples/jsm/nodes/Nodes.js";
 
 const Hero = () => {
   const defaultOptions = {
@@ -21,6 +23,7 @@ const Hero = () => {
   };
 
   return (
+    <div>
     <div className="relative h-screen overflow-hidden">
       <div className="absolute inset-0 z-0 opacity-30">
         <Lottie options={defaultOptions} height="100%" width="100%" />
@@ -86,6 +89,8 @@ const Hero = () => {
           }
         }
       `}</style>
+    </div>
+    <ComingSoon />
     </div>
   );
 };
