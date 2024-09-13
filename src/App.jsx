@@ -19,6 +19,7 @@ import HeroTech from "./Components/tech/HeroTech";
 import Hero3D from "./Components/3dworld/Hero3D";
 import Hero3D1 from "./Components/3dart/Hero3Dvideo";
 import Contact from "./Components/contact/contact";
+import HeroSection1 from "./Components/home/test";
 
 function App() {
   return (

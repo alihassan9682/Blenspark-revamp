@@ -14,7 +14,7 @@ const AboutUs = () => {
           </p>
         </div>
         <div className="lg:w-1/3 px-4 flex justify-center lg:justify-end mt-8 lg:mt-0">
-          <img src={logo} alt="BlenSpark Logo" className="w-2/3 lg:w-full" />
+          <img src="/logo.png" alt="/logo.png" className="w-2/3 lg:w-full" />
         </div>
       </div>
     </div>
