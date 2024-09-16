@@ -1,5 +1,3 @@
-/** @format */
-
 import React from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -7,7 +5,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import IM from '../../assets/LogoImages/blenspark.png';
 
 const FeatureCard = ({ img, title, description }) => (
-  <div className="bg-white text-black p-4 md:p-6 rounded-tr-[90px] rounded-bl-[90px] shadow-lg w-60 md:w-72 flex flex-col items-center justify-center mx-auto">
+  <div className="bg-white text-black mx-4 p-4 md:p-6 md:h-2/3 rounded-tr-[90px] lg:h-full rounded-bl-[90px] shadow-lg w-60 md:w-72 flex flex-col items-center justify-center lg:mx-auto">
     <img src={img} alt={title} className="mb-4 w-24 h-24 object-contain" />
     <h3 className="text-lg md:text-xl font-bold mt-2 mb-2 text-center">{title}</h3>
     <p className="text-center text-sm md:text-base">{description}</p>
@@ -63,14 +61,14 @@ const Clients = () => {
   };
 
   return (
-    <div className="w-full bg-[#359dad] flex flex-col items-center py-12 px-4">
+    <div className="w-full h-screen bg-[#359dad] flex flex-col  items-center py-12 px-4">
       <h1 className="text-3xl md:text-4xl font-bold text-white text-center mb-4">
         We've helped our clients complete +3,000 projects
       </h1>
       <p className="text-white text-center mb-12">
         Over the last 14 years, we've been driven by our passion for helping global clients achieve their goals.
       </p>
-      <div className="hidden md:flex justify-center flex-wrap gap-6 w-full max-w-screen-lg px-6 mx-auto">
+      <div className=" my-20 hidden md:flex justify-center flex-wrap gap-6 w-full xl:h-2/3 lg:h-1/2 max-w-screen-lg px-6 mx-auto ">
         {features.map((feature, index) => (
           <FeatureCard
             key={index}
@@ -80,10 +78,13 @@ const Clients = () => {
           />
         ))}
       </div>
-      <div className="md:hidden w-full px-6">
-        <Slider {...settings}>
+      <div className="md:hidden w-full px-7 mx-4">
+        <Slider {...settings} className="flex">
           {features.map((feature, index) => (
-            <div key={index} className="flex justify-center">
+            <div
+              key={index}
+              className="flex justify-center"
+            >
               <FeatureCard
                 img={feature.img}
                 title={feature.title}

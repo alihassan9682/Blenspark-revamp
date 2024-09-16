@@ -45,4 +45,9 @@ export const ServicesData = [
     description: "Experience the best in class with our outstanding service.",
     icon: PiCubeFocus,
   },
+  {
+    title: "Game ready assets",
+    description: "Experience the best in class with our outstanding service.",
+    icon: PiCubeFocus,
+  },
 ];

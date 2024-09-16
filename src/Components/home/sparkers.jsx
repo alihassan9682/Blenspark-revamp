@@ -32,7 +32,7 @@ const teamMembers = [
 ];
 
 const TeamMemberCard = ({ name, position, description, img }) => (
-  <div className="relative bg-gray-200 rounded-lg overflow-hidden shadow-lg m-4 h-96 border border-">
+  <div className="relative bg-gray-200 rounded-tr-[90px]  rounded-bl-[90px] overflow-hidden shadow-lg m-4 md:h-96 xl::h-[32rem] border border-">
     <img src={img} alt={name} className="absolute inset-0 w-full h-full object-cover" />
     <div className="relative p-6 h-full flex flex-col justify-end bg-gradient-to-t from-gray-900 via-gray-500 to-white opacity-30">
       <h3 className="text-xl font-bold text-white mb-2">{name}</h3>

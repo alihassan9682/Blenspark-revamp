@@ -172,7 +172,7 @@ const Hero = () => {
       </div>
       <Services />
       <Packages />
-      <Clients />
+      <Clients/>
       <Projects />
       <AboutUs />
       <MeetTheSparkers />
