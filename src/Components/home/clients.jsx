@@ -68,7 +68,7 @@ const Clients = () => {
       <p className="text-white text-center mb-12">
         Over the last 14 years, we've been driven by our passion for helping global clients achieve their goals.
       </p>
-      <div className=" my-20 hidden md:flex justify-center flex-wrap gap-6 w-full xl:h-2/3 lg:h-1/2 max-w-screen-lg px-6 mx-auto ">
+      <div className=" my-20 hidden md:flex justify-center flex-wrap gap-6 w-full xl:h-3/4 lg:h-1/2 max-w-screen-lg px-6 mx-auto ">
         {features.map((feature, index) => (
           <FeatureCard
             key={index}
