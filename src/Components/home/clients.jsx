@@ -5,7 +5,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import IM from '../../assets/LogoImages/blenspark.png';
 
 const FeatureCard = ({ img, title, description }) => (
-  <div className="bg-white text-black mx-4 p-4 md:p-6 md:h-2/3 rounded-tr-[90px] lg:h-full rounded-bl-[90px] shadow-lg w-60 md:w-72 flex flex-col items-center justify-center lg:mx-auto">
+  <div className="bg-white text-black mx-4 p-4 md:p-6 md:h-2/3 rounded-tr-[90px] lg:h-3/4 rounded-bl-[90px] shadow-lg w-60 md:w-72 flex flex-col items-center justify-center lg:mx-auto">
     <img src={img} alt={title} className="mb-4 w-24 h-24 object-contain" />
     <h3 className="text-lg md:text-xl font-bold mt-2 mb-2 text-center">{title}</h3>
     <p className="text-center text-sm md:text-base">{description}</p>
