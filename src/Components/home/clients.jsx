@@ -79,16 +79,17 @@ const Clients = () => {
         ))}
       </div>
       <div className="md:hidden w-full px-7 mx-4">
-        <Slider {...settings} className="flex">
+        <Slider {...settings}>
           {features.map((feature, index) => (
             <div
               key={index}
-              className="flex justify-center"
+              className="flex justify-center items-center w-full mx-32"
             >
               <FeatureCard
                 img={feature.img}
                 title={feature.title}
                 description={feature.description}
+                className =''
               />
             </div>
           ))}

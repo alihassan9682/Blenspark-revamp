@@ -32,7 +32,7 @@ const teamMembers = [
 ];
 
 const TeamMemberCard = ({ name, position, description, img }) => (
-  <div className="relative bg-gray-200 rounded-tr-[90px]  rounded-bl-[90px] overflow-hidden shadow-lg m-4 md:h-96 xl::h-[32rem] border border-">
+  <div className="relative bg-gray-200 rounded-tr-[90px]  rounded-bl-[90px] overflow-hidden shadow-lg m-4 md:h-96 xl:h-[32rem] border border-">
     <img src={img} alt={name} className="absolute inset-0 w-full h-full object-cover" />
     <div className="relative p-6 h-full flex flex-col justify-end bg-gradient-to-t from-gray-900 via-gray-500 to-white opacity-30">
       <h3 className="text-xl font-bold text-white mb-2">{name}</h3>
@@ -52,12 +52,12 @@ const MeetTheSparkers = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-white flex flex-col items-center py-12 px-4">
+    <div className="w-full min-h-screen 2xl:h-screen bg-white flex flex-col items-center py-12 px-4">
       <h1 className="text-4xl md:text-5xl font-bold text-[#4a4a4a] text-center mb-4">Meet The Sparkers</h1>
       <p className="text-lg text-[#359dad] text-center mb-12 ">
         At BlenSpark, we specialize in cutting-edge 3D and IT solutions that transform your ideas into immersive realities. Our expert team is dedicated to designing, developing, and delivering bespoke services that cater to a diverse range of industries. Whether it's crafting stunning 3D visualizations, developing robust software, or providing comprehensive IT support.
       </p>
-      <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-center gap-8">
+      <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-center gap-8 h-3/4">
         {teamMembers.map((member, index) => (
           <TeamMemberCard key={index} name={member.name} position={member.position} description={member.description} img={member.img} />
         ))}
@@ -65,7 +65,7 @@ const MeetTheSparkers = () => {
       <div className="md:hidden w-full">
         <Slider {...settings}>
           {teamMembers.map((member, index) => (
-            <div key={index}>
+            <div key={index} className='grid gap-10'>
               <TeamMemberCard name={member.name} position={member.position} description={member.description} img={member.img} />
             </div>
           ))}
