@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Import logos
@@ -23,11 +23,6 @@ import imgSrc17 from "../../assets/logos/18.png";
 import imgSrc18 from "../../assets/logos/19.png";
 import imgSrc19 from "../../assets/logos/20.png";
 import imgSrc20 from "../../assets/logos/21.png";
-
-// Import video source
-import videoSrc from "../../assets/ARVideos/8.mp4";
-
-// Import components (if not already imported)
 import Services from "./Services";
 import Packages from "./packages";
 import Projects from "./porjectsDelivered";
@@ -37,11 +32,16 @@ import MeetTheSparkers from "./sparkers";
 
 const Hero = () => {
   const navigate = useNavigate();
-
+  const scrolltoTop = React.useRef(null);
   const setCurrentHero = (hero) => {
-    navigate(`/${hero.toLowerCase()}`);
+    navigate(`/contact`);
   };
-
+  const handleScroll = () => {
+    scrolltoTop.current.scrollIntoView({ behavior: 'smooth' });
+  }
+  useEffect(() => {
+    handleScroll()
+  })
   const logos = [
     [imgSrc, "h-20"], [imgSrc1, "h-20"], [imgSrc2, "h-16"], [imgSrc3, "h-20"], [imgSrc4, "h-20"], [imgSrc5, "h-14"],
     [imgSrc6, "h-24"], [imgSrc7, "h-10"], [imgSrc8, "h-16"], [imgSrc9, "h-24"], [imgSrc10, "h-24"], [imgSrc11, "h-10"],
@@ -51,14 +51,14 @@ const Hero = () => {
 
   return (
     <div>
-      <div className="relative h-screen overflow-hidden">
+      <div className="relative h-screen overflow-hidden" ref={scrolltoTop}>
         <video
           autoPlay
           loop
           muted
           className="absolute inset-0 z-0 w-full h-full object-cover bg-white opacity-90"
         >
-          <source src={videoSrc} type="video/mp4" />
+          <source src="https://res.cloudinary.com/duzgdiwwb/video/upload/v1721814164/8_jwglav.mp4" type="video/mp4" />
         </video>
 
         <div className="relative z-10 flex flex-col items-center justify-center h-full p-8 sm:p-16 md:p-24 lg:p-32 text-center">
@@ -77,24 +77,24 @@ const Hero = () => {
               </p>
             </div>
           </div>
-          <div className="flex flex-row justify-center gap-4 mt-8 sm:mt-12 md:mt-16 lg:mt-20">
+          <div className="flex flex-row justify-center gap-4 mt-8 sm:mt-12 md:mt-16 lg:mt-20 cursor-pointer">
             <button
               onClick={() => setCurrentHero("schedule-a-call")}
-              className="bg-[#4a4a4a] text-white py-3 px-6 rounded-full transition duration-300 hover:opacity-80"
+              className="bg-[#4a4a4a] text-white py-3 px-6 rounded-full transition duration-300 hover:opacity-80 "
             >
               Schedule a Call
             </button>
             <button
               onClick={() => setCurrentHero("see-our-work")}
-              className="bg-[#359dad] text-white py-3 px-6 rounded-full transition duration-300 hover:opacity-80"
+              className="bg-[#359dad] text-white py-3 px-6 rounded-full transition cursor-pointer duration-300 hover:opacity-80"
             >
               See Our Work
             </button>
           </div>
-          <div className="absolute bottom-0 left-0 right-0 flex mb-32">
+          <div className="absolute bottom-0 left-0 right-0 flex mb-32 md:mb-3">
             <div className="w-full relative">
-              <div className="absolute inset-0 bg-white opacity-50 py-12"></div>
-              <div className="relative z-10 -mt-5 logos-container">
+              <div className="absolute inset-0 bg-white opacity-50 h-13 my-5"></div>
+              <div className="relative z-20 -mt-5 logos-container">
                 <div className="logos-wrapper animate-slide items-center">
                   {logos.concat(logos).map((src, index) => (
                     <img key={index} src={src[0]} alt={`Logo ${index + 1}`} className={`${src[1]} mx-10 mt-6`} />

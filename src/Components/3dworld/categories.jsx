@@ -1,62 +1,67 @@
-/** @format */
 
-import React, { useState } from "react";
-import { FaCube, FaVrCardboard } from "react-icons/fa";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import CategoryCollage from "./categoryCollage";
-import InteractiveModelModal from "./modalFor3D";
-import weaponImage from "../../assets/GLBs/weapon.png";
-import video1 from "../../assets/ARVideos/1.mp4";
-import video2 from "../../assets/ARVideos/2.mp4";
-import video3 from "../../assets/ARVideos/3.mp4";
-import video4 from "../../assets/ARVideos/4.mp4";
-import video5 from "../../assets/ARVideos/5.mp4";
-import video6 from "../../assets/ARVideos/6.mp4";
-
+import { FaVrCardboard } from "react-icons/fa";
+import weapon from "../../assets/GLBs/weapon.glb";
+import ThreeDModelCard from "./ThreeDModelCard";
+import Configurator from "./3DConfigurator";
+// import model1 from "../../assets/GLBs/GLB Black V/Untitled.glb";
 const CategoriesShowcase = () => {
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const handleOpenModal = () => {
-    setModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalOpen(false);
-  };
-
-  const categoryOneItems = [
-    { media: weaponImage, description: "Futuristic Tank", isVideo: false },
-    { media: weaponImage, description: "Futuristic Tank", isVideo: false },
-    { media: weaponImage, description: "Futuristic Tank", isVideo: false },
-    { media: weaponImage, description: "Futuristic Tank", isVideo: false },
-    { media: weaponImage, description: "Futuristic Tank", isVideo: false },
-    { media: weaponImage, description: "Futuristic Tank", isVideo: false },
+  const threeDSpaceModels = [
+    {
+      id: 1,
+      path: weapon,
+      title: "Tank Model 1",
+      description: "A futuristic tank with advanced features.",
+      scale: 1.5,
+    },
+    {
+      id: 2,
+      path: weapon,
+      title: "Tank Model 2",
+      description: "A robust tank for heavy combat.",
+      scale: 1.5,
+    },
+    {
+      id: 3,
+      path: weapon,
+      title: "Tank Model 3",
+      description: "An innovative tank design.",
+      scale: 1.5,
+    }
   ];
 
-  const categoryTwoItems = [
-    { media: video1, description: "Augmented Reality Video", isVideo: true },
-    { media: video6, description: "Augmented Reality Video", isVideo: true },
-    { media: video2, description: "Augmented Reality Video", isVideo: true },
-    { media: video5, description: "Augmented Reality Video", isVideo: true },
-    { media: video3, description: "Augmented Reality Video", isVideo: true },
-    { media: video4, description: "Augmented Reality Video", isVideo: true },
-  ];
+  // const categoryTwoItems = [
+  //   { media: video1, description: "Augmented Reality Video", isVideo: true },
+  //   { media: video6, description: "Augmented Reality Video", isVideo: true },
+  //   { media: video2, description: "Augmented Reality Video", isVideo: true },
+  //   { media: video5, description: "Augmented Reality Video", isVideo: true },
+  //   { media: video3, description: "Augmented Reality Video", isVideo: true },
+  //   { media: video4, description: "Augmented Reality Video", isVideo: true },
+  // ];
 
   return (
-    <div className="mx-auto p-4 -mt-12">
-      <CategoryCollage
-        categoryTitle="3D Model Explorer"
-        items={categoryOneItems}
-        Icon={FaCube}
-        onOpenModal={handleOpenModal}
-      />
-      <CategoryCollage
-        categoryTitle="AR Vision"
-        items={categoryTwoItems}
-        Icon={FaVrCardboard}
-      />
-      <InteractiveModelModal open={modalOpen} onClose={handleCloseModal} />
+    <div className="mx-auto p-4">
+      <div className="mb-12">
+        <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
+          3D Space
+        </h2>
+        <div className="flex flex-wrap justify-center gap-4">
+          {threeDSpaceModels.map((model) => (
+            <ThreeDModelCard
+              key={model.id}
+              modelPath={model.path}
+              title={model.title}
+              description={model.description}
+              scale={model.scale}
+            />
+          ))}
+        </div>
+      </div>
+      <div className="w-full mb-12">
+        <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
+          3D Configurator
+        </h2>
+        <Configurator />
+      </div>
     </div>
   );
 };

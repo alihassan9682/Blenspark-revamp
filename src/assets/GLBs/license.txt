@@ -1,0 +1,11 @@
+Model Information:
+* title:	Herbie
+* source:	https://sketchfab.com/3d-models/herbie-e11c254749ab4ba8b28e7a475b0908c5
+* author:	gecortes (https://sketchfab.com/gecortes)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Herbie" (https://sketchfab.com/3d-models/herbie-e11c254749ab4ba8b28e7a475b0908c5) by gecortes (https://sketchfab.com/gecortes) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
