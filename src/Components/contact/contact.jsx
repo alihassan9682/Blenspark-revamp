@@ -3,14 +3,21 @@
 import React from "react";
 import CalendlyEmbed from "./calendly";
 import ContactForm from "./contactForm";
-
+import { useEffect } from "react";
 const App = () => {
+  const contactref = React.useRef(null);
+  const handleScroll = () => {
+    contactref.current.scrollIntoView({ behavior: 'smooth' });
+  }
+  useEffect(() => {
+    handleScroll()
+  })
   return (
     <div className="flex flex-col bg-gray-100 py-8">
       <h1 className="text-5xl font-bold mb-8 text-center text-[#4a4a4a] mt-6">
         Let's BlenSpark assist you!
       </h1>
-      <div className="flex justify-center mb-8">
+      <div className="flex justify-center mb-8" ref={contactref}>
         <ContactForm />
       </div>
       <div className="flex flex-col items-center">
