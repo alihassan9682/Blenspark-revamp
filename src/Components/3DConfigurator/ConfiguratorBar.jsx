@@ -5,7 +5,7 @@ import { IoColorPaletteOutline } from "react-icons/io5";
 import { TbWheel } from "react-icons/tb";
 import { FaLock, FaUnlock, FaPaintBrush, FaCircle, FaAngleDown } from "react-icons/fa";
 
-const ConfiguratorBar = ({ options,  }) => {
+const ConfiguratorBar = ({ options, }) => {
     const [activeOption, setActiveOption] = useState(null);
 
     const handleOptionSelect = (option) => {
@@ -19,10 +19,10 @@ const ConfiguratorBar = ({ options,  }) => {
                     <div className="relative flex flex-col items-center">
                         {/* Downward Arrow */}
                         <div
-                            className={`absolute bottom-full mb-2 text-[#359dad] transition-all duration-300 ease-in-out ${activeOption === option.label ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+                            className={`absolute bottom-full mb-2 text-[#359dad] transition-all duration-400 ease-in-out ${activeOption === option.label ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
                                 }`}
                         >
-                            <FaAngleDown size={20} />
+                            <FaAngleDown size={12} />
                         </div>
                         <button
                             onClick={() => handleOptionSelect(option)}
@@ -33,9 +33,9 @@ const ConfiguratorBar = ({ options,  }) => {
                         </button>
                         {/* Submenu */}
                         <div
-                            className={`absolute bottom-full mb-8 bg-gray-200 bg-opacity-90 text-gray-800 py-3 px-4 flex justify-center items-center shadow-md z-50 rounded-lg transition-all duration-300 ease-in-out ${activeOption === option.label
-                                    ? "opacity-100 translate-y-0 scale-100"
-                                    : "opacity-0 -translate-y-4 scale-95 pointer-events-none"
+                            className={`absolute bottom-full mb-8 bg-gray-200 bg-opacity-90 text-gray-800 py-1 px-2 flex justify-center items-center shadow-md z-50 rounded-lg transition-all duration-400 ease-in-out ${activeOption === option.label
+                                ? "opacity-100 translate-y-0 scale-100"
+                                : "opacity-0 -translate-y-4 scale-95 pointer-events-none"
                                 }`}
                         >
                             <div className="flex items-center">
@@ -52,7 +52,7 @@ const ConfiguratorBar = ({ options,  }) => {
                                         </button>
                                         {/* Divider line between sub-options */}
                                         {subIndex < option.subOptions.length - 1 && (
-                                            <div className="w-px h-6 bg-gray-400 mx-2"></div>
+                                            <div className="w-px h-6 bg-gray-200 mx-2"></div>
                                         )}
                                     </React.Fragment>
                                 ))}
@@ -61,7 +61,7 @@ const ConfiguratorBar = ({ options,  }) => {
                     </div>
                     {/* Full-height divider line */}
                     {index < options.length - 1 && (
-                        <div className="w-px bg-gray-400 self-stretch"></div>
+                        <div className="w-px bg-gray-200 self-stretch"></div>
                     )}
                 </React.Fragment>
             ))}
@@ -74,38 +74,38 @@ const Example = () => {
     const options = [
         {
             label: "Doors",
-            icon: <GiCarDoor size={60} />,
+            icon: <GiCarDoor size={40} />,
             subOptions: [
-                { label: "Open Door", icon: <FaUnlock size={40} /> },
-                { label: "Close Door", icon: <FaLock size={40} /> },
-                { label: "Lock Door", icon: <FaLock size={40} /> },
+                { label: "Open Door", icon: <FaUnlock size={20} /> },
+                { label: "Close Door", icon: <FaLock size={20} /> },
+                { label: "Lock Door", icon: <FaLock size={20} /> },
             ],
         },
         {
             label: "Colors",
-            icon: <IoColorPaletteOutline size={60} />,
+            icon: <IoColorPaletteOutline size={40} />,
             subOptions: [
-                { label: "Red", icon: <FaCircle size={40} color="red" /> },
-                { label: "Blue", icon: <FaCircle size={40} color="blue" /> },
-                { label: "Green", icon: <FaCircle size={40} color="green" /> },
+                { label: "Red", icon: <FaCircle size={20} color="red" /> },
+                { label: "Blue", icon: <FaCircle size={20} color="blue" /> },
+                { label: "Green", icon: <FaCircle size={20} color="green" /> },
             ],
         },
         {
             label: "Wheels",
-            icon: <TbWheel size={60} />,
+            icon: <TbWheel size={40} />,
             subOptions: [
-                { label: "Alloy", icon: <FaPaintBrush size={40} /> },
-                { label: "Steel", icon: <FaPaintBrush size={40} /> },
-                { label: "Carbon Fiber", icon: <FaPaintBrush size={40} /> },
+                { label: "Alloy", icon: <FaPaintBrush size={20} /> },
+                { label: "Steel", icon: <FaPaintBrush size={20} /> },
+                { label: "Carbon Fiber", icon: <FaPaintBrush size={20} /> },
             ],
         },
         {
             label: "Sports",
-            icon: <IoCarSportOutline size={60} />,
+            icon: <IoCarSportOutline size={40} />,
             subOptions: [
-                { label: "Turbo Mode", icon: <IoCarSportOutline size={40} /> },
-                { label: "Eco Mode", icon: <IoCarSportOutline size={40} /> },
-                { label: "Sport Mode", icon: <IoCarSportOutline size={40} /> },
+                { label: "Turbo Mode", icon: <IoCarSportOutline size={20} /> },
+                { label: "Eco Mode", icon: <IoCarSportOutline size={20} /> },
+                { label: "Sport Mode", icon: <IoCarSportOutline size={20} /> },
             ],
         },
     ];

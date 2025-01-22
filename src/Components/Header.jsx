@@ -118,7 +118,6 @@ const Header = () => {
                     className="hover:text-cyan-400"
                   >
                     {item.name}
-                    {console.log(item.name)}
                   </NavLink>
                 </li>
               ))}

@@ -11,6 +11,7 @@ const Hero = () => {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
+
   const navigate = useNavigate();
 
   const setCurrentHero = (hero) => {
