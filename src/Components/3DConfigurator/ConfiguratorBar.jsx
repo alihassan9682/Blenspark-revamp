@@ -5,15 +5,15 @@ import { IoColorPaletteOutline } from "react-icons/io5";
 import { TbWheel } from "react-icons/tb";
 import { FaLock, FaUnlock, FaPaintBrush, FaCircle, FaAngleDown } from "react-icons/fa";
 
-const ConfiguratorBar = ({ options, }) => {
+const ConfiguratorBar = ({ options, moveToMesh }) => {
     const [activeOption, setActiveOption] = useState(null);
-
+    console.log("Options:", moveToMesh);
     const handleOptionSelect = (option) => {
         setActiveOption(activeOption === option.label ? null : option.label); // Toggle submenu
     };
 
     return (
-        <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 bg-gray-200 bg-opacity-50 text-white py-3 px-4 flex justify-center items-center shadow-md z-50 rounded-lg">
+        <div className="flex flex-row justify-center items-center gap-4 border w-auto border-gray-200 rounded-lg p-4 bg-gray-100 bg-opacity-50 shadow-lg">
             {options.map((option, index) => (
                 <React.Fragment key={index}>
                     <div className="relative flex flex-col items-center">
@@ -25,7 +25,14 @@ const ConfiguratorBar = ({ options, }) => {
                             <FaAngleDown size={12} />
                         </div>
                         <button
-                            onClick={() => handleOptionSelect(option)}
+                            onClick={() => {
+                                handleOptionSelect(option);
+                                console.log("Option selected:", option.label);
+                                if (option.label === "Doors") {
+                                    console.log("Door selected")
+                                    moveToMesh();
+                                }
+                            }}
                             className="text-[#359dad] transform hover:scale-110 font-semibold mx-4 flex items-center justify-center"
                             title={option.label}
                         >
@@ -59,7 +66,6 @@ const ConfiguratorBar = ({ options, }) => {
                             </div>
                         </div>
                     </div>
-                    {/* Full-height divider line */}
                     {index < options.length - 1 && (
                         <div className="w-px bg-gray-200 self-stretch"></div>
                     )}

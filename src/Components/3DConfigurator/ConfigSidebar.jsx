@@ -4,7 +4,7 @@ import React from "react";
 
 const ConfigSidebar = ({ options, onOptionSelect }) => {
     return (
-        <div className="fixed right-8 top-1/2 transform -translate-y-1/2 h-fit w-fit bg-gray-200 bg-opacity-50 text-[#359dad] text-center p-4 shadow-lg flex flex-col items-center">
+        <div className="flex flex-col justify-center items-center w-full h-full rounded-xl  bg-gray-100 mb-32">
             <div className="grid grid-cols-1 gap-4 items-center justify-center"> {/* Centered grid */}
                 {options.map((option, index) => (
                     <div

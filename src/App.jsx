@@ -24,7 +24,7 @@ function App() {
           }
         }}
       />
-      <div className="font-montserrat sm:pl-0 md:pl-20">
+      <div className="font-montserrat sm:pl-0  relative">
         <div className="sticky top-0 z-50 bg-white bg-opacity-75">
           <Header />
         </div>
@@ -34,7 +34,7 @@ function App() {
           <Route path="/home" element={<Hero />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/3d-configurator" element={<InteractiveModelViewer />} />
-          <Route path="*" element={<Navigate to="/home" />} />
+          {/* <Route path="*" element={<Navigate to="/home" />} /> */}
         </Routes>
         <Footer />
       </div>

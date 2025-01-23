@@ -51,7 +51,7 @@ const Hero = () => {
 
   return (
     <div>
-      <div className="relative h-screen overflow-hidden" ref={scrolltoTop}>
+      <div className="relative h-screen overflow-hidden w-full" ref={scrolltoTop}>
         <video
           autoPlay
           loop

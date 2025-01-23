@@ -20,8 +20,9 @@ export function Corolla(props) {
       console.error("Actions object is undefined or not initialized.");
       return;
     }
-
+    console.log(name)
     const action = actions[name];
+    console.log("Action:", action);
     if (!action) {
       console.error(`Animation "${name}" is not defined in actions.`);
       return;
@@ -52,7 +53,7 @@ export function Corolla(props) {
     <group ref={group} {...props} dispose={null}>
       <group name="Scene">
         <group name="e180_door_FL_59" rotation={[Math.PI / 2, 0, 0]} >
-          <mesh name="Object_84" geometry={nodes.Object_84.geometry} material={materials.PaletteMaterial001} position={[0.849, 0.916, -0.669]} onClick={() => AnimationHandler("Object_84Action")}>
+          <mesh name="Object_84" geometry={nodes.Object_84.geometry} material={materials.PaletteMaterial001} position={[0.849, 0.916, -0.669]} onClick={() => AnimationHandler("Object_84Action")} ref={props.CCl3Ref}>
             <mesh name="Object_16" geometry={nodes.Object_16.geometry} material={materials.PaletteMaterial002} position={[-0.849, -0.916, 0.669]} />
             <mesh name="Object_79" geometry={nodes.Object_79.geometry} material={materials.PaletteMaterial001} position={[-0.849, -0.916, 0.669]} />
             <mesh name="Object_87" geometry={nodes.Object_87.geometry} material={materials.e180_interior} position={[-0.849, -0.916, 0.669]} />

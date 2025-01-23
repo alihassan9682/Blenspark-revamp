@@ -1,99 +1,65 @@
 import React, { Suspense, useState, useRef, useEffect } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import { OrbitControls, CameraControls, Environment } from "@react-three/drei";
 import { WineCooler } from "./Wine_cooler.jsx";
-// import { Beetle } from "./Beetle_-_BLEND.jsx";
-import * as THREE from "three";
-import gsap from "gsap";
-import ConfiguratorBar from "./ConfiguratorBar"; // Import the ConfiguratorBar component
-import ConfigSidebar from "./ConfigSidebar"; // Import the ConfigSidebar component
+import ConfiguratorBar from "./ConfiguratorBar";
+import ConfigSidebar from "./ConfigSidebar";
 import { Model } from "./Untitled.jsx";
-import { handleExportUSDZ } from "../exporter.jsx"
-import hdri from "../../assets/goegap_road_2k.hdr"
-import { Corolla } from "./Ccl3.jsx"
+import { handleExportUSDZ } from "../exporter.jsx";
+import DownloadQRCode from "react-qr-code"; // Import QR Code component
+import hdri from "../../assets/goegap_road_2k.hdr";
+import { Corolla } from "./Ccl3.jsx";
+
 const InteractiveModelViewer = () => {
     const [selectedOption, setSelectedOption] = useState({
         label: "Fridge",
         value: WineCooler,
         image: "https://cdn.pixabay.com/photo/2023/03/25/20/21/ai-generated-7876757_1280.jpg",
     });
+    const [showQRScanner, setShowQRScanner] = useState(false);
+    const [qrCodeData, setQrCodeData] = useState(""); // State for QR code data
     const ModelRef = useRef();
+    const CCl3Ref = useRef();
+    const cameraControlRef = useRef(null);
+    const [loading, setLoading] = useState(false);
+    const [footerHeight, setFooterHeight] = useState(0);
 
-    const cameraRef = useRef(null);
-    const [targetPosition, setTargetPosition] = useState(new THREE.Vector3(0, 2, 5)); // Default camera position
-    const [lookAtTarget, setLookAtTarget] = useState(new THREE.Vector3(0, 0, 0)); // Default look-at target
+    useEffect(() => {
+        const footer = document.querySelector('footer'); // Select the footer element
+        if (footer) {
+            setFooterHeight(footer.offsetHeight); // Get the footer's height
+        }
+    }, []);
 
     const handleOptionSelect = (option) => {
-        console.log("Selected option:", option);
         setSelectedOption(option);
+        setQrCodeData(option.label); // Set QR code data to the selected option's label
     };
 
-    const focusOnMesh = (meshRef) => {
-        const mesh = meshRef?.current;
-        const cameraObject = cameraRef.current?.object || cameraRef.current;
-
-        // Log for debugging
-        console.log("Mesh:", mesh);
-        console.log("Camera Object:", cameraObject);
-
-        // Check if mesh and camera object are valid
-        if (!mesh || !(mesh instanceof THREE.Object3D)) {
-            console.error("Invalid mesh reference.");
-            return;
+    const moveToMesh = () => {
+        if (cameraControlRef.current && CCl3Ref.current) {
+            const meshPosition = CCl3Ref.current.position;
+            cameraControlRef.current.setPosition(meshPosition.x + 1.4, meshPosition.y, meshPosition.z + 2);
+            cameraControlRef.current.setTarget(meshPosition.x, meshPosition.y, meshPosition.z);
         }
-
-        if (!cameraObject) {
-            console.error("Camera reference is null or undefined.");
-            return;
-        }
-
-        const boundingBox = new THREE.Box3().setFromObject(mesh);
-        const center = boundingBox.getCenter(new THREE.Vector3());
-        const size = boundingBox.getSize(new THREE.Vector3());
-        const maxSize = Math.max(size.x, size.y, size.z);
-
-        // Ensure camera properties are valid
-        const fov = cameraObject.fov || 50;
-        const aspect = cameraObject.aspect || 1; // Default to square aspect ratio if undefined
-
-        if (isNaN(fov) || isNaN(aspect)) {
-            console.error("Invalid camera properties.");
-            return;
-        }
-
-        const distance = maxSize / (2 * Math.tan((fov * Math.PI) / 360)) * aspect;
-
-        // Calculate the new camera position along the camera's current direction
-        const direction = new THREE.Vector3().subVectors(cameraObject.position, center).normalize();
-        const newPosition = center.clone().add(direction.multiplyScalar(distance));
-
-        // Update target position for CameraRig to move towards
-        setTargetPosition(newPosition);
-
-        // Update the lookAt target for CameraRig to look at
-        setLookAtTarget(center);
-
-        // Smoothly move the camera to the new position with GSAP
-        gsap.to(cameraObject.position, {
-            x: newPosition.x,
-            y: newPosition.y,
-            z: newPosition.z,
-            duration: 1, // Smooth transition in 1 second
-            onUpdate: () => cameraObject.lookAt(center), // Update look-at during animation
-        });
     };
-
-
-
-    function CameraRig({ targetPosition, lookAtTarget }) {
-        useFrame((state) => {
-            // Lerp for smooth animation to the new target position
-            state.camera.position.lerp(targetPosition, 0.1);  // Lerp for smooth animation
-            state.camera.lookAt(lookAtTarget);  // Make camera always look at the target
-        });
-
-        return null; // No visible component
+    const handleQR = async () => {
+        if (ModelRef.current) {
+            setLoading(true);
+            const url = await handleExportUSDZ(ModelRef);
+            console.log("QR Code Data", url)
+            if (url) {
+                setQrCodeData(url);
+                setShowQRScanner(true);
+            }
+            setLoading(false);
+        }
+        return;
     }
+    useEffect(() => {
+        console.log("QR Code", qrCodeData)
+        console.log("Loading", loading)
+    }, [qrCodeData, loading])
 
     const Options = [
         { label: "Car", value: "option1", image: "https://cdn.pixabay.com/photo/2016/12/03/18/57/car-1880381_1280.jpg" },
@@ -102,24 +68,30 @@ const InteractiveModelViewer = () => {
     ];
 
     return (
-        <div className="flex overflow-hidden">
+        <div className="flex overflow-hidden relative">
             {/* Fullscreen Canvas */}
             <div className="relative flex-1">
-                <Canvas shadows style={{ width: "100vw", height: "100vh" }}>
-                    {/* <CameraRig targetPosition={targetPosition} lookAtTarget={lookAtTarget} /> */}
+                {loading && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-white"></div>
+                    </div>
+                )}
+                <Canvas shadows dpr={[1, 2]} camera={{ position: [0, 0, 5], fov: 50 }} style={{ height: "100vh" }}>
                     <Suspense fallback={<LoadingIndicator />}>
+                        <CameraControls ref={cameraControlRef} />
                         <Environment files={hdri} />
                         <ambientLight intensity={1} />
                         <directionalLight position={[10, 10, 10]} intensity={4} castShadow />
-                        {/* Display the converted GLTF model */}
                         <group ref={ModelRef}>
                             {selectedOption.label === "Fridge" ? (
                                 <WineCooler />
                             ) : selectedOption.label === "Car" ? (
-                                <Corolla />
+                                <Corolla CCl3Ref={CCl3Ref} />
+                            ) : selectedOption.label === "Sofa" ? (
+                                <Model />
                             ) : null}
-                        </group >
-                        <OrbitControls ref={cameraRef} />
+                        </group>
+                        <OrbitControls target={[0, 0, 0]} />
                         {/* Ground plane to receive shadows */}
                         <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.4, 0]} receiveShadow>
                             <shadowMaterial opacity={0.3} />
@@ -127,10 +99,49 @@ const InteractiveModelViewer = () => {
                         </mesh>
                     </Suspense>
                 </Canvas>
-                <ConfiguratorBar options={Options} onOptionSelect={handleOptionSelect} />
-                <button onClick={() => handleExportUSDZ(ModelRef)} className="text-black bg-gray-500"> Download model</button>
+
+                {/* Overlay Buttons */}
+                <div className="absolute top-10 left-5 z-10 flex flex-col gap-4">
+                    <button onClick={() => {
+                        setLoading(true);
+                        handleExportUSDZ(ModelRef)
+                        setLoading(false);
+                    }} className="text-black bg-gray-500 rounded-xl px-3 py-4">
+                        Download model
+                    </button>
+                    <button onClick={moveToMesh} className="text-black bg-gray-500 rounded-xl px-3 py-4">
+                        Move to Model
+                    </button>
+                    <button onClick={handleQR} className="text-black bg-blue-500 rounded-xl px-3 py-4">
+                        Scan QR Code
+                    </button>
+                </div>
+
+                {/* Configurator Bar */}
+                <div className="absolute bottom-10 left-1/2 transform   -translate-x-1/2 z-10  flex items-center justify-center gap-4 ">
+                    <ConfiguratorBar options={Options} onOptionSelect={handleOptionSelect} moveToMesh={() => moveToMesh()} />
+                </div>
             </div>
-            <ConfigSidebar options={Options} onOptionSelect={handleOptionSelect} />
+
+            {/* Fixed Sidebar */}
+            <div className="fixed top-1/2 transform -translate-y-1/2 w-32 flex justify-center h-auto right-0  mr-4 z-10 mb-20" style={{ bottom: `${footerHeight}px` }}>
+                <ConfigSidebar options={Options} onOptionSelect={handleOptionSelect} />
+            </div>
+            {/* QR Code Scanner Modal */}
+            {showQRScanner && (
+                <div className="absolute left-0 inset-0 bg-black bg-opacity-50 flex justify-center items-center z-20">
+                    <div className="bg-white p-4 rounded-lg">
+                        <h2 className="text-lg font-bold mb-4">Scan QR Code</h2>
+                        <DownloadQRCode value={qrCodeData} />
+                        <button
+                            onClick={() => setShowQRScanner(false)}
+                            className="text-white bg-red-500 rounded-xl px-3 py-2 mt-4"
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
@@ -138,8 +149,14 @@ const InteractiveModelViewer = () => {
 const LoadingIndicator = () => {
     return (
         <mesh visible position={[0, 0, 0]}>
-            <sphereGeometry attach="geometry" args={[1, 16, 16]} />
-            <meshStandardMaterial attach="material" color="orange" transparent opacity={0.1} roughness={1} metalness={1} />
+            <sphereGeometry args={[1, 16, 16]} />
+            <meshStandardMaterial
+                color="orange"
+                transparent
+                opacity={0.5}
+                roughness={1}
+                metalness={1}
+            />
         </mesh>
     );
 };
