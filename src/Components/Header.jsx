@@ -33,51 +33,48 @@ const Header = () => {
     setIsOpen(false);
   };
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
-  const handleDropdownOptionClick = (subItem) => {
-    setSelectedItem(subItem);
-    navigate(`/${subItem.toLowerCase()}`);
-  };
-
   return (
     <div className="flex">
-      <div className="hidden lg:flex fixed top-0 left-0 h-full w-16 2xl:w-20 bg-white text-white flex-col justify-between items-center">        <div className="text-3xl font-extrabold rotate-180 hover:cursor-pointer">
-        <div className="transform rotate-90 p-16 flex justify-center items-center">
-          <p className="text-[#359dad] text-lg xl:text-xl">Blen</p>
-          <p className="text-[#4a4a4a] text-lg xl:text-xl">Spark</p>
+      <div className="hidden lg:flex fixed top-0  left-0 h-full w-20 bg-white text-white flex-col justify-around items-center">
+        <div className="text-3xl font-extrabold rotate-180 hover:cursor-pointer mt-4">
+          <div className="transform rotate-90 ">
+            <p className="text-[#359dad]">Blen</p>
+          </div>
+          <div className="transform rotate-90 mt-9">
+            <p className="text-[#4a4a4a]">Spark</p>
+          </div>
         </div>
-      </div>
         <div
-          className="text-white whitespace-nowrap mb-0 xl:mb-12 bg-[#359dad] hover:bg-cyan-700 rounded-full p-2 transform rotate-90 hover:scale-105 w-fit px-6 lg:px-3 hover:cursor-pointer"
+          className="text-white whitespace-nowrap  bg-[#359dad] hover:bg-cyan-700 rounded-full p-2 transform rotate-90 hover:scale-105 w-fit px-6 lg:px-4 hover:cursor-pointer"
           onClick={() => navigate("/contact")}
         >
-          <div className="transform rotate-180 text-sm lg:text-xs">Lets Talk</div>
+          <div className="transform rotate-180">Lets Talk</div>
         </div>
       </div>
-      <div className="flex-1 lg:ml-12 2xl:ml-16 bg-transparent text-white p-4 sm:px-8 md:px-16 lg:px-24 xl:px-28">
+
+      <div className="flex-1 lg:ml-16 bg-transparent text-white p-4 sm:px-8 md:px-16 lg:px-24 xl:px-28">
         <div className="flex justify-between items-center">
           <nav className="hidden sm:flex w-full justify-between my-2">
             <ul className="flex w-full justify-between text-[#359dad] text-lg sm:text-xl md:text-xl underline-offset-8 uppercase">
-              {["Home", "our work", "3D Configurator", "Contact"].map((item) => (
-                <li
-                  key={item}
-                  className="flex items-center relative hover:cursor-pointer"
-                >
-                  <NavLink
-                    to={`/${item.toLowerCase().replace(" ", "-")}`}
-                    activeClassName="text-[#4a4a4a] underline"
-                    className={`hover:text-[#4a4a4a]  ${selectedItem === item ? "text-[#4a4a4a] underline" : ""
-                      }`}
-                    onClick={() => setSelectedItem(item)}
+              {["Home", "our work", "3D Configurator", "Contact"].map(
+                (item) => (
+                  <li
+                    key={item}
+                    className="flex items-center relative hover:cursor-pointer"
                   >
-                    {item}
-                  </NavLink>
-                  {item !== "Contact" && <span className="divider"></span>}
-                </li>
-              ))}
+                    <NavLink
+                      to={`/${item.toLowerCase().replace(" ", "-")}`}
+                      activeClassName="text-[#4a4a4a] underline"
+                      className={`hover:text-[#4a4a4a]  ${selectedItem === item ? "text-[#4a4a4a] underline" : ""
+                        }`}
+                      onClick={() => setSelectedItem(item)}
+                    >
+                      {item}
+                    </NavLink>
+                    {item !== "Contact" && <span className="divider"></span>}
+                  </li>
+                )
+              )}
             </ul>
           </nav>
           <div className="sm:hidden">

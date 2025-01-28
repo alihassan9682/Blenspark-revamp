@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import phoneImage from '../../assets/Cards/mobile.png';
-import blenSpaark from '../../assets/Cards/mobile1.png';
+import blenSpaark from '../../assets/Cards/BlenSpark.png';
 import design from '../../assets/Cards/DESIGN/2.png';
 import develop from '../../assets/Cards/DESIGN/3.png';
 import devliver from '../../assets/Cards/DESIGN/4.png';
@@ -10,7 +10,7 @@ const HeroSection = () => {
   const [img, setImage] = useState(blenSpaark);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 items-center justify-items-center w-full min-h-screen 2xl:h-1/2 px-4 md:px-8 lg:px-16 gap-4">
+    <div className="bg-gradient-to-b from-[#FFFFFF] to-[#5AAFBB] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 items-center justify-items-center w-full min-h-screen 2xl:h-1/2 px-4 md:px-8 lg:px-16 gap-4">
       {/* Forward Arrow Left - Hidden on mobile */}
       <div className="hidden lg:block">
         <img src="/forward.png" alt="Forward arrow" className="w-1/3 h-auto" />

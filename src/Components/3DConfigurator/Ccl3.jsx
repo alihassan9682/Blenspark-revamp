@@ -50,7 +50,7 @@ export function Corolla(props) {
     }
   };
   return (
-    <group ref={group} {...props} dispose={null}>
+    <group ref={group} {...props} dispose={null} position={[0, 1, 1.5]}>
       <group name="Scene">
         <group name="e180_door_FL_59" rotation={[Math.PI / 2, 0, 0]} >
           <mesh name="Object_84" geometry={nodes.Object_84.geometry} material={materials.PaletteMaterial001} position={[0.849, 0.916, -0.669]} onClick={() => AnimationHandler("Object_84Action")} ref={props.CCl3Ref}>

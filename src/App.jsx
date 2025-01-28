@@ -24,7 +24,7 @@ function App() {
           }
         }}
       />
-      <div className="font-montserrat sm:pl-0  relative">
+      <div className="font-montserrat sm:pl-16  relative">
         <div className="sticky top-0 z-50 bg-white bg-opacity-75">
           <Header />
         </div>
