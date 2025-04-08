@@ -6,19 +6,36 @@ import { TbWheel } from "react-icons/tb";
 import { FaLock, FaUnlock, FaPaintBrush, FaCircle, FaAngleDown } from "react-icons/fa";
 import { FaCouch } from "react-icons/fa";
 import { GiPillow } from "react-icons/gi";
-
 import { TbSofa } from "react-icons/tb";
-
+import { ReactComponent as Cushion } from '../../assets/configurator/cushions.svg';
+import leg from "../../assets/configurator/legs (1).png"
+import leg1 from "../../assets/configurator/legs.png"
 const SofaOptions = [
     {
         label: "Cushions",
-        icon: <GiPillow size={40} />,
+        icon: <Cushion style={{ width: 50, height: 50, color: "red" }} className="text-red-800" />,
         subOptions: [
-            { label: "orche yellow", icon: <FaCircle size={20} color="orche yellow" />, color: 'orche yellow' },
-            { label: "Blue", icon: <FaCircle size={20} color="blue" />, color: 'blue' },
-            { label: "Green", icon: <FaCircle size={20} color="green" />, color: 'green' },
-            { label: "Gray", icon: <FaCircle size={20} color="gray" />, color: 'gray' },
-        ],
+            {
+                label: "Orche Yellow",
+                icon: <Cushion style={{ width: 30, height: 30, color: "orcheyellow" }} />,
+                color: "orcheyellow",
+            },
+            {
+                label: "Blue",
+                icon: <Cushion style={{ width: 30, height: 30, color: "blue" }} />,
+                color: "blue",
+            },
+            {
+                label: "Green",
+                icon: <Cushion style={{ width: 30, height: 30, color: "green" }} />,
+                color: "green",
+            },
+            {
+                label: "Gray",
+                icon: <Cushion style={{ width: 30, height: 30, color: "gray" }} />,
+                color: "gray",
+            },
+        ]
     },
     {
         label: "Frame",
@@ -32,10 +49,10 @@ const SofaOptions = [
     },
     {
         label: "Legs",
-        icon: <FaLock size={40} />,
+        icon: <img src={leg} className="w-5 h-5 text-blue-500" />,
         subOptions: [
-            { label: "WoodenStands", icon: <FaUnlock size={20} /> },
-            { label: "MetalStands", icon: <FaUnlock size={20} /> },
+            { label: "WoodenStands", icon: <img src={leg1} className="w-5 h-5 text-blue-500" /> },
+            { label: "MetalStands", icon: <img src={leg} className="w-5 h-5 text-blue-500" /> },
         ],
     },
 ];
@@ -78,7 +95,7 @@ const Caroptions = [
         ],
     },
 ];
-export const ConfiguratorBar = ({ selectedOption, moveToMesh, handleStandChange, handleColorChange }) => {
+export const ConfiguratorBar = ({ selectedOption, handleStandChange, handleColorChange }) => {
     const [activeOption, setActiveOption] = useState(null);
     const [selectedBar, setSelectedBar] = useState(null);
 
@@ -90,12 +107,10 @@ export const ConfiguratorBar = ({ selectedOption, moveToMesh, handleStandChange,
     const mainOptionHandlers = {
         "Doors": () => {
             console.log("Door selected");
-            moveToMesh();
         },
         "Frame": () => {
             console.log("Color selected");
             const position = { x: 0, y: 0.001, z: 0 };
-            // moveToMesh(position);
         }
         // Add more options here if needed
     };

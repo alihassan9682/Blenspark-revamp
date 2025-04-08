@@ -5,11 +5,9 @@ import { WineCooler } from "./Wine_cooler.jsx";
 import { ConfiguratorBar } from "./ConfiguratorBar";
 import ConfigSidebar from "./ConfigSidebar";
 import { handleExportUSDZ } from "../exporter.jsx";
-import DownloadQRCode from "react-qr-code"; // Import QR Code component
 import hdri from "../../assets/goegap_road_2k.hdr";
-import { Corolla } from "./Ccl3.jsx";
 import { SofaModel } from "./Sofa test.jsx"
-
+import { Car } from "./Bmw_x7_m60i.jsx"
 const InteractiveModelViewer = () => {
     const [selectedOption, setSelectedOption] = useState({
         label: "Sofa",
@@ -40,41 +38,11 @@ const InteractiveModelViewer = () => {
             setFooterHeight(footer.offsetHeight); // Get the footer's height
         }
     }, []);
-
     const handleStandChange = (isMetal) => setMetalStand(isMetal);
 
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
         setQrCodeData(option.label); // Set QR code data to the selected option's label
-    };
-
-    const moveToMesh = (meshPosition = { x: 0, y: 0, z: 0 }) => {
-        console.log("Moving to position:", meshPosition);
-        if (cameraControlRef.current) {
-            cameraControlRef.current.setPosition(meshPosition.x, meshPosition.y, meshPosition.z);
-            cameraControlRef.current.setTarget(meshPosition.x, meshPosition.y, meshPosition.z);
-        }
-    };
-
-    const handleQR = async () => {
-        if (ModelRef.current) {
-            setLoading(true);
-            const base64Data = await handleExportUSDZ(ModelRef);
-            console.log("Base64 Data", base64Data);
-            if (!base64Data) {
-                setLoading(false);
-                return;
-            }
-
-            const blob = new Blob([base64Data], { type: "model/vnd.usdz+zip" });
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setQrCodeData(reader.result); // Set the QR code to the Data URL
-                setShowQRScanner(true);
-                setLoading(false);
-            };
-            reader.readAsDataURL(blob); // Convert Blob to Data URL
-        }
     };
 
     const colorHandlers = {
@@ -132,28 +100,48 @@ const InteractiveModelViewer = () => {
                         <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-white"></div>
                     </div>
                 )}
-                <Canvas shadows dpr={[1, 2]} camera={{ position: [0, 0, 5], fov: 50 }} style={{ height: "100vh" }}>
-                    <Suspense fallback={<LoadingIndicator />}>
-                        <CameraControls ref={cameraControlRef} />
-                        <Environment files={hdri} />
-                        <ambientLight intensity={1} />
-                        <directionalLight position={[10, 10, 10]} intensity={4} castShadow />
-                        <group ref={ModelRef}>
-                            {{
-                                "Fridge": <WineCooler />,
-                                "Car": <Corolla CCl3Ref={CCl3Ref} />,
-                                "Sofa": <SofaModel SofeRef={SofeRef} Stand={metalStand} />,
-                            }[selectedOption.label] || null}
-                        </group>
-                        <OrbitControls target={[0, 0, 0]} />
-                        {/* Ground plane to receive shadows */}
-                        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.4, 0]} receiveShadow>
-                            <shadowMaterial opacity={0.3} />
-                            <planeGeometry args={[100, 100]} />
-                        </mesh>
-                    </Suspense>
-                </Canvas>
+                <Canvas
+                    shadows
+                    dpr={[1, 2]}
+                    camera={{ position: [0, 0, 5], fov: 50 }}
+                    style={{ height: "100vh" }}
+                >
+                    <ambientLight intensity={1} />
+                    <directionalLight
+                        position={[0, 5, 0]} // Directly above
+                        target-position={[0, 0, 0]} // Points straight down
+                        intensity={2.5}
+                        castShadow
+                        shadow-mapSize-width={2048}
+                        shadow-mapSize-height={2048}
+                    />
+                    <Environment files={hdri} />
+                    <group ref={ModelRef} position={[0, -1, 0]} rotation={[0, 0, 0]} scale={[1, 1, 1]}>
+                        {{
+                            "Fridge": <WineCooler />,
+                            "Car": <Car />,
+                            "Sofa": <SofaModel SofeRef={SofeRef} Stand={metalStand} />,
+                        }[selectedOption.label] || null}
+                    </group>
 
+                    <OrbitControls
+                        target={[0, 0, 0]}
+                        enableZoom={true}
+                        enableRotate={true}
+                        enablePan={true}
+                        maxPolarAngle={Math.PI / 2}
+                    />
+
+                    {/* Constant shadow plane */}
+                    <mesh
+                        receiveShadow
+                        rotation={[-Math.PI / 2, 0, 0]}
+                        position={[0, -1.01, 0]}
+                    >
+                        <planeGeometry args={[100, 100]} />
+                        <shadowMaterial transparent opacity={0.5} color="#d0d0d0" />
+                    </mesh>
+                </Canvas>
                 {/* Overlay Buttons */}
                 <div className="absolute top-10 left-5 z-10 flex flex-col gap-4">
                     <button
@@ -162,15 +150,9 @@ const InteractiveModelViewer = () => {
                             await handleExportUSDZ(ModelRef);
                             setLoading(false);
                         }}
-                        className="text-black bg-gray-500 rounded-xl px-3 py-4"
+                        className="text-white bg-blue-400 rounded-xl px-3 py-2"
                     >
-                        Download model
-                    </button>
-                    <button onClick={moveToMesh} className="text-black bg-gray-500 rounded-xl px-3 py-4">
-                        Move to Model
-                    </button>
-                    <button onClick={handleQR} className="text-black bg-blue-500 rounded-xl px-3 py-4">
-                        Scan QR Code
+                        View in AR
                     </button>
                 </div>
 
@@ -178,7 +160,6 @@ const InteractiveModelViewer = () => {
                 <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10 flex items-center justify-center gap-4">
                     <ConfiguratorBar
                         selectedOption={selectedOption}
-                        moveToMesh={moveToMesh}
                         handleStandChange={handleStandChange}
                         handleColorChange={handleColorChange}
                     />
@@ -191,7 +172,7 @@ const InteractiveModelViewer = () => {
             </div>
 
             {/* QR Code Scanner Modal */}
-            {showQRScanner && (
+            {/* {showQRScanner && (
                 <div className="absolute left-0 inset-0 bg-black bg-opacity-50 flex justify-center items-center z-20">
                     <div className="bg-white p-4 rounded-lg">
                         <h2 className="text-lg font-bold mb-4">Scan QR Code</h2>
@@ -207,7 +188,7 @@ const InteractiveModelViewer = () => {
                         </button>
                     </div>
                 </div>
-            )}
+            )} */}
         </div>
     );
 };
