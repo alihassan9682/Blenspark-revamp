@@ -8,6 +8,12 @@ import { handleExportUSDZ } from "../exporter.jsx";
 import hdri from "../../assets/goegap_road_2k.hdr";
 import { SofaModel } from "./Sofa test.jsx"
 import { Car } from "./Bmw_x7_m60i.jsx"
+import { BMW } from "./BMW1.jsx";
+
+
+import { useThree, useFrame } from '@react-three/fiber';
+
+
 const InteractiveModelViewer = () => {
     const [selectedOption, setSelectedOption] = useState({
         label: "Sofa",
@@ -19,7 +25,7 @@ const InteractiveModelViewer = () => {
     const [qrCodeData, setQrCodeData] = useState("");
     const [metalStand, setMetalStand] = useState(false); // State for metal stands
     const ModelRef = useRef();
-    const CCl3Ref = useRef();
+    const [position, setPosition] = useState([0, 0, 5])
     const SofeRef = useRef({
         Stands: useRef(null),
         Plane: useRef(null),
@@ -28,6 +34,9 @@ const InteractiveModelViewer = () => {
         Back_seat_R: useRef(null),
         Taylor_Sofa001: useRef(null),
     });
+    const CarRefs = useRef({
+    });
+
     const cameraControlRef = useRef(null);
     const [loading, setLoading] = useState(false);
     const [footerHeight, setFooterHeight] = useState(0);
@@ -39,25 +48,72 @@ const InteractiveModelViewer = () => {
         }
     }, []);
     const handleStandChange = (isMetal) => setMetalStand(isMetal);
-
+    const handleRefsReady = (refs) => {
+        CarRefs.current = refs;
+        // console.log("CarRefs populated:", CarRefs.current);
+    };
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
         setQrCodeData(option.label); // Set QR code data to the selected option's label
     };
+    function CameraRig({ position: [x, y, z] }) {
+        useFrame((state) => {
 
+            state.camera.position.lerp({ x, y, z }, 0.1)
+            state.camera.lookAt(0, 0, 0)
+        })
+    }
     const colorHandlers = {
-        "Frame": (color) => {
+        Frame: (color) => {
             console.log("Applying color to Frame:", color);
             SofeRef.current.Stands.current.material.color.set(color);
             SofeRef.current.Back_seat_R.current.material.color.set(color);
         },
-        "Cushions": (color) => {
+        Cushions: (color) => {
             console.log("Applying color to Cushions:", color);
             SofeRef.current.Cussion002.current.material.color.set(color);
             SofeRef.current.Cussion001.current.material.color.set(color);
         },
-    };
 
+        // Body handler: Applies color to all body components
+        Body: (color) => {
+            console.log("Applying color to Body:", color);
+            // Doors
+            if (CarRefs.current.doorFLBody) CarRefs?.current?.doorFLBody?.current.material?.color?.set(color);
+            if (CarRefs.current.doorFRBody) CarRefs.current.doorFRBody.current.material.color.set(color);
+            if (CarRefs.current.doorRLBody) CarRefs.current.doorRLBody.current.material.color.set(color);
+            if (CarRefs.current.doorRRBody) CarRefs.current.doorRRBody.current.material.color.set(color);
+            // Chassis Body.current
+            if (CarRefs.current.chassisBody) CarRefs.current.chassisBody.current.material.color.set(color);
+            // Glass
+            if (CarRefs.current.doorFLGlass) CarRefs.current.doorFLGlass.current.material.color.set(color);
+            if (CarRefs.current.doorFRGlass) CarRefs.current.doorFRGlass.current.material.color.set(color);
+            if (CarRefs.current.doorRLGlass) CarRefs.current.doorRLGlass.current.material.color.set(color);
+            if (CarRefs.current.doorRRGlass) CarRefs.current.doorRRGlass.current.material.color.set(color);
+            if (CarRefs.current.tailgateGlass) CarRefs.current.tailgateGlass.current.material.color.set(color);
+            // Lights
+            if (CarRefs.current.headlights) CarRefs.current.headlights.current.material.color.set(color);
+            if (CarRefs.current.tailgateLights) CarRefs.current.tailgateLights.current.material.color.set(color);
+            // Signals
+            if (CarRefs.current.doorFLSignal) CarRefs.current.doorFLSignal.current.material.color.set(color);
+            if (CarRefs.current.doorFRSignal) CarRefs.current.doorFRSignal.current.material.color.set(color);
+            if (CarRefs.current.doorRRSignal) CarRefs.current.doorRRSignal.current.material.color.set(color);
+            // Leather.current
+            if (CarRefs.current.doorFLLeather) CarRefs.current.doorFLLeather.current.material.color.set(color);
+            if (CarRefs.current.doorFRLeather) CarRefs.current.doorFRLeather.current.material.color.set(color);
+            if (CarRefs.current.doorRLLeather) CarRefs.current.doorRLLeather.current.material.color.set(color);
+            if (CarRefs.current.doorRRLeather) CarRefs.current.doorRRLeather.current.material.color.set(color);
+        },
+        Wheels: (color) => {
+            console.log("Applying color to Wheels:", color);
+            // if (CarRefs.current.tireF) CarRefs.current.tireF.material.color.set(color);
+            if (CarRefs.current.dashWheel) CarRefs.current.dashWheel.current.material.color.set(color);
+        },
+        Chassis: (color) => {
+            console.log("Applying color to Chassis:", color);
+            if (CarRefs.current.chassisCarpet) CarRefs.current.chassisCarpet.current.material.color.set(color);
+        }
+    };
     const handleColorChange = (meshName, color) => {
         console.log("Color Change:", meshName, color);
         const handler = colorHandlers[meshName];
@@ -65,7 +121,7 @@ const InteractiveModelViewer = () => {
     };
 
     const Options = [
-        { label: "Car", value: "option1", image: "https://cdn.pixabay.com/photo/2016/12/03/18/57/car-1880381_1280.jpg" },
+        { label: "Car", value: "option1", image: "/bmwX7.png" },
         { label: "Sofa", value: "option2", image: "https://cdn.pixabay.com/photo/2024/06/13/12/43/sofa-8827533_1280.png" },
         { label: "Fridge", value: WineCooler, image: "https://cdn.pixabay.com/photo/2023/03/25/20/21/ai-generated-7876757_1280.jpg" },
     ];
@@ -89,7 +145,15 @@ const InteractiveModelViewer = () => {
     }, []);
 
 
-
+    const handleZoom = () => {
+        console.log("zoomed")
+        const pos = CarRefs.current.doorFLLeather.current.position;
+        console.log("postion", pos)
+        setPosition([pos.x, pos.y, pos.z]);
+    };
+    useEffect(() => {
+        console.log(position)
+    }, [position])
 
     return (
         <div className="flex overflow-hidden relative">
@@ -105,7 +169,9 @@ const InteractiveModelViewer = () => {
                     dpr={[1, 2]}
                     camera={{ position: [0, 0, 5], fov: 50 }}
                     style={{ height: "100vh" }}
+
                 >
+                    <CameraRig position={position} />
                     <ambientLight intensity={1} />
                     <directionalLight
                         position={[0, 5, 0]} // Directly above
@@ -119,7 +185,7 @@ const InteractiveModelViewer = () => {
                     <group ref={ModelRef} position={[0, -1, 0]} rotation={[0, 0, 0]} scale={[1, 1, 1]}>
                         {{
                             "Fridge": <WineCooler />,
-                            "Car": <Car />,
+                            "Car": <BMW onRefsReady={handleRefsReady} />,
                             "Sofa": <SofaModel SofeRef={SofeRef} Stand={metalStand} />,
                         }[selectedOption.label] || null}
                     </group>
@@ -162,6 +228,7 @@ const InteractiveModelViewer = () => {
                         selectedOption={selectedOption}
                         handleStandChange={handleStandChange}
                         handleColorChange={handleColorChange}
+                        handleZoom={handleZoom}
                     />
                 </div>
             </div>
@@ -190,22 +257,6 @@ const InteractiveModelViewer = () => {
                 </div>
             )} */}
         </div>
-    );
-};
-
-
-const LoadingIndicator = () => {
-    return (
-        <mesh visible position={[0, 0, 0]}>
-            <sphereGeometry args={[1, 16, 16]} />
-            <meshStandardMaterial
-                color="orange"
-                transparent
-                opacity={0.5}
-                roughness={1}
-                metalness={1}
-            />
-        </mesh>
     );
 };
 

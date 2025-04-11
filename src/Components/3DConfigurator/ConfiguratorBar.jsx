@@ -1,101 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { IoCarSportOutline } from "react-icons/io5";
-import { GiCarDoor } from "react-icons/gi";
-import { IoColorPaletteOutline } from "react-icons/io5";
-import { TbWheel } from "react-icons/tb";
-import { FaLock, FaUnlock, FaPaintBrush, FaCircle, FaAngleDown } from "react-icons/fa";
-import { FaCouch } from "react-icons/fa";
-import { GiPillow } from "react-icons/gi";
-import { TbSofa } from "react-icons/tb";
-import { ReactComponent as Cushion } from '../../assets/configurator/cushions.svg';
-import leg from "../../assets/configurator/legs (1).png"
-import leg1 from "../../assets/configurator/legs.png"
-const SofaOptions = [
-    {
-        label: "Cushions",
-        icon: <Cushion style={{ width: 50, height: 50, color: "red" }} className="text-red-800" />,
-        subOptions: [
-            {
-                label: "Orche Yellow",
-                icon: <Cushion style={{ width: 30, height: 30, color: "orcheyellow" }} />,
-                color: "orcheyellow",
-            },
-            {
-                label: "Blue",
-                icon: <Cushion style={{ width: 30, height: 30, color: "blue" }} />,
-                color: "blue",
-            },
-            {
-                label: "Green",
-                icon: <Cushion style={{ width: 30, height: 30, color: "green" }} />,
-                color: "green",
-            },
-            {
-                label: "Gray",
-                icon: <Cushion style={{ width: 30, height: 30, color: "gray" }} />,
-                color: "gray",
-            },
-        ]
-    },
-    {
-        label: "Frame",
-        icon: <TbSofa size={40} />,
-        subOptions: [
-            { label: "Red", icon: <FaCircle size={20} color="red" />, color: 'red' },
-            { label: "Blue", icon: <FaCircle size={20} color="blue" />, color: 'blue' },
-            { label: "Green", icon: <FaCircle size={20} color="green" />, color: 'green' },
-            { label: "Gray", icon: <FaCircle size={20} color="gray" />, color: 'gray' },
-        ],
-    },
-    {
-        label: "Legs",
-        icon: <img src={leg} className="w-5 h-5 text-blue-500" />,
-        subOptions: [
-            { label: "WoodenStands", icon: <img src={leg1} className="w-5 h-5 text-blue-500" /> },
-            { label: "MetalStands", icon: <img src={leg} className="w-5 h-5 text-blue-500" /> },
-        ],
-    },
-];
+import { FaAngleDown } from "react-icons/fa";
+import { SofaOptions, Caroptions } from "./subOptions";
 
-const Caroptions = [
-    {
-        label: "Doors",
-        icon: <GiCarDoor size={40} />,
-        subOptions: [
-            { label: "Open Door", icon: <FaUnlock size={20} /> },
-            { label: "Close Door", icon: <FaLock size={20} /> },
-            { label: "Lock Door", icon: <FaLock size={20} /> },
-        ],
-    },
-    {
-        label: "Colors",
-        icon: <IoColorPaletteOutline size={40} />,
-        subOptions: [
-            { label: "Red", icon: <FaCircle size={20} color="red" /> },
-            { label: "Blue", icon: <FaCircle size={20} color="blue" /> },
-            { label: "Green", icon: <FaCircle size={20} color="green" /> },
-        ],
-    },
-    {
-        label: "Wheels",
-        icon: <TbWheel size={40} />,
-        subOptions: [
-            { label: "Alloy", icon: <FaPaintBrush size={20} /> },
-            { label: "Steel", icon: <FaPaintBrush size={20} /> },
-            { label: "Carbon Fiber", icon: <FaPaintBrush size={20} /> },
-        ],
-    },
-    {
-        label: "Sports",
-        icon: <IoCarSportOutline size={40} />,
-        subOptions: [
-            { label: "Turbo Mode", icon: <IoCarSportOutline size={20} /> },
-            { label: "Eco Mode", icon: <IoCarSportOutline size={20} /> },
-            { label: "Sport Mode", icon: <IoCarSportOutline size={20} /> },
-        ],
-    },
-];
-export const ConfiguratorBar = ({ selectedOption, handleStandChange, handleColorChange }) => {
+
+
+export const ConfiguratorBar = ({ selectedOption, handleStandChange, handleColorChange, handleZoom }) => {
     const [activeOption, setActiveOption] = useState(null);
     const [selectedBar, setSelectedBar] = useState(null);
 
@@ -103,26 +12,30 @@ export const ConfiguratorBar = ({ selectedOption, handleStandChange, handleColor
         setActiveOption(activeOption === option.label ? null : option.label); // Toggle submenu
     };
 
-    // Object-based function mapping for main options
-    const mainOptionHandlers = {
-        "Doors": () => {
-            console.log("Door selected");
-        },
-        "Frame": () => {
-            console.log("Color selected");
-            const position = { x: 0, y: 0.001, z: 0 };
-        }
-        // Add more options here if needed
-    };
-
     const subOptionHandlers = {
-        "WoodenStands": () => handleStandChange(true),
-        "MetalStands": () => handleStandChange(false),
-        "Red": (label) => handleColorChange(label, "red"),
-        "Blue": (label) => handleColorChange(label, "blue"),
-        "Green": (label) => handleColorChange(label, "green"),
-        "Gray": (label) => handleColorChange(label, "gray")
-        // Add more sub-options here if needed
+        WoodenStands: () => handleStandChange(true),
+        MetalStands: () => handleStandChange(false),
+        "Orche Yellow": (label) => {
+            console.log("Orche Yellow color selected for", label);
+            handleColorChange("Cushions", "orcheyellow");
+        },
+        Red: (label) => {
+            console.log("Red color selected for", label);
+            handleColorChange(label, "red");
+        },
+        Blue: (label) => {
+            console.log("Blue color selected for", label);
+            handleColorChange(label, "blue");
+        },
+        Green: (label) => {
+            console.log("Green color selected for", label);
+            handleColorChange(label, "green");
+        },
+        Gray: (label) => {
+            console.log("Gray color selected for", label);
+            handleColorChange(label, "gray");
+        },
+        BMW: () => handleZoom("carBody"),
     };
 
     useEffect(() => {
@@ -145,10 +58,6 @@ export const ConfiguratorBar = ({ selectedOption, handleStandChange, handleColor
                             onClick={() => {
                                 handleOptionSelect(option);
                                 console.log("Option selected:", option.label);
-
-                                // Use the mainOptionHandlers object for handling main options
-                                const handler = mainOptionHandlers[option.label];
-                                if (handler) handler();
                             }}
                             className="text-[#359dad] transform hover:scale-110 font-semibold mx-4 flex items-center justify-center"
                             title={option.label}
@@ -167,18 +76,20 @@ export const ConfiguratorBar = ({ selectedOption, handleStandChange, handleColor
                                     <React.Fragment key={subIndex}>
                                         <button
                                             onClick={() => {
-                                                console.log(`Selected sub-option: ${subOption.label}`);
+                                                console.log(`Selected sub-option: ${subOption.label} for ${option.label}`);
 
-                                                // Use the subOptionHandlers object for handling sub-options
                                                 const subHandler = subOptionHandlers[subOption.label];
-                                                if (subHandler) subHandler(option.label);
+                                                if (subHandler) {
+                                                    subHandler(option.label); // Call with label if needed
+                                                }
+                                                handleZoom();
                                             }}
+
                                             className="text-[#359dad] transform hover:scale-110 font-semibold mx-4 flex items-center justify-center"
                                             title={subOption.label}
                                         >
                                             {subOption.icon}
                                         </button>
-                                        {/* Divider line between sub-options */}
                                         {subIndex < option.subOptions.length - 1 && (
                                             <div className="w-px h-6 bg-gray-200 mx-2"></div>
                                         )}
@@ -193,4 +104,3 @@ export const ConfiguratorBar = ({ selectedOption, handleStandChange, handleColor
         </div>
     );
 };
-
