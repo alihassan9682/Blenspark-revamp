@@ -30,7 +30,7 @@ export function Model(props) {
       wheel: wheelRef,
       door: doorRef,
     };
-    props.onRefsReady(meshRefs);
+    props.onRefsReady(meshRefs, "car");
   }, []);
 
 
@@ -87,8 +87,8 @@ export function Model(props) {
         <mesh name="inmx7m60i_dash_inmx7m60i_carbon_interior_0" geometry={nodes.inmx7m60i_dash_inmx7m60i_carbon_interior_0.geometry} material={materials.inmx7m60i_carbon_interior} rotation={[-Math.PI / 2, 0, 0]} />
         <mesh name="inmx7m60i_dash_inmx7m60i_dashscreen_0" geometry={nodes.inmx7m60i_dash_inmx7m60i_dashscreen_0.geometry} material={materials.inmx7m60i_dashscreen} rotation={[-Math.PI / 2, 0, 0]} />
         <mesh name="inmx7m60i_tubs_inmx7m60i_black_0" geometry={nodes.inmx7m60i_tubs_inmx7m60i_black_0.geometry} material={materials.PaletteMaterial001} rotation={[-Math.PI / 2, 0, 0]} />
-        <mesh name="inmx7m60i_chassis_inmx7m60i_body_0" geometry={nodes.inmx7m60i_chassis_inmx7m60i_body_0.geometry} material={materials.PaletteMaterial003} rotation={[-Math.PI / 2, 0, 0]} />
-        <mesh name="inmx7m60i_chassis_inmx7m60i_carpet_0" geometry={nodes.inmx7m60i_chassis_inmx7m60i_carpet_0.geometry} material={materials.inmx7m60i_carpet} rotation={[-Math.PI / 2, 0, 0]} ref={chassisCarpet}/>
+        <mesh name="inmx7m60i_chassis_inmx7m60i_body_0" geometry={nodes.inmx7m60i_chassis_inmx7m60i_body_0.geometry} material={materials.PaletteMaterial003} rotation={[-Math.PI / 2, 0, 0]} ref={bodyRef} />
+        <mesh name="inmx7m60i_chassis_inmx7m60i_carpet_0" geometry={nodes.inmx7m60i_chassis_inmx7m60i_carpet_0.geometry} material={materials.inmx7m60i_carpet} rotation={[-Math.PI / 2, 0, 0]} ref={chassisCarpetRef} />
         <mesh name="inmx7m60i_tailgate_inmx7m60i_body_0" geometry={nodes.inmx7m60i_tailgate_inmx7m60i_body_0.geometry} material={materials.PaletteMaterial003} position={[0, 1.547, -1.735]} rotation={[-1.571, 0, 0]}>
           <mesh name="inmx7m60i_gateglass_inmx7m60i_glass_0" geometry={nodes.inmx7m60i_gateglass_inmx7m60i_glass_0.geometry} material={materials.PaletteMaterial004} position={[0, -1.735, -1.547]} />
           <mesh name="inmx7m60i_lettering_inmx7m60i_blue_0" geometry={nodes.inmx7m60i_lettering_inmx7m60i_blue_0.geometry} material={materials.PaletteMaterial001} position={[0, -1.735, -1.547]} />

@@ -105,6 +105,8 @@ const InteractiveModelViewer = () => {
 
         },
         Chassis: (color) => {
+            console.log("Chassis color changed to:", color);
+            console.log("CarRefs", CarRefs.current)
             if (CarRefs.current.interiorLeather) CarRefs?.current?.interiorLeather?.current.material?.color?.set(color);
             if (CarRefs.current.chassisCarpet) CarRefs?.current?.chassisCarpet?.current.material?.color?.set(color);
             handleZoom()
@@ -160,10 +162,7 @@ const InteractiveModelViewer = () => {
     };
 
     const handleZoom = () => {
-        // console.log("zoomed");
-
-        const pos = CarRefs?.current?.chassisCarpet?.current.position;
-
+        const pos = CarRefs?.current?.chassisCarpet?.current?.position;
         // Set camera to door position
         setCameraPos([pos.x, pos.y, 1]);
 

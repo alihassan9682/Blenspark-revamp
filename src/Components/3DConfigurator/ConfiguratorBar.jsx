@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
 import { SofaOptions, Caroptions } from "./config";
-import R1 from "../../assets/Renders/R1.png"
 
 
 export const ConfiguratorBar = ({ selectedOption, handleStandChange, handleColorChange, handleZoom, barActive, handleRimChange }) => {
@@ -75,14 +74,12 @@ export const ConfiguratorBar = ({ selectedOption, handleStandChange, handleColor
             handleColorChange(label, "#E6E6E6", bg); // light car, deep dark bg
         },
     };
-
-
     useEffect(() => {
         selectedOption.label === "Sofa" ? setSelectedBar(SofaOptions) : setSelectedBar(Caroptions);
     }, [selectedOption]);
     return (
         barActive && (
-            <div className={`transition-all duration-500 ease-in-out transform flex flex-row justify-center items-center gap-4 border w-auto border-gray-200 rounded-lg p-4 bg-gray-100 bg-opacity-50 shadow-lg ${barActive ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
+            <div className={`transition-all duration-500 ease-in-out transform flex flex-row justify-center items-center gap-4  w-auto  rounded-lg p-4  ${barActive ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
                 }`}>
                 {selectedBar?.map((option, index) => (
                     <React.Fragment key={index}>
