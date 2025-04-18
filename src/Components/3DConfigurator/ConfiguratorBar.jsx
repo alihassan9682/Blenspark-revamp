@@ -12,13 +12,16 @@ export const ConfiguratorBar = ({ selectedOption, handleStandChange, handleColor
     };
 
     const subOptionHandlers = {
-        WoodenStands: () => {
-            // console.log("Wooden Stands selected");
-            handleStandChange(true)
+        Wooden: () => {
+            // .log("Wooden Stands selected");
+            handleStandChange("Wood")
         },
-        MetalStands: () => {
-            // console.log("Metal Stands selected");
-            handleStandChange(false)
+        Metal: () => {
+            // .log("Metal Stands selected");
+            handleStandChange("Metal")
+        },
+        Sliver: () => {
+            handleStandChange("Sliver")
         },
         Rim1: () => {
             handleRimChange(true)
@@ -28,49 +31,49 @@ export const ConfiguratorBar = ({ selectedOption, handleStandChange, handleColor
         },
         Alpine: (label, bg) => {
             handleColorChange(label, "#FFFFFF", bg);
-            // // console.log("Black color selected for", label, bg);
+            // // // .log("Black color selected for", label, bg);
             // white car, dark bg
         },
         Brown: (label, bg) => {
             handleColorChange(label, "#E0B778", bg);
-            // // console.log("Brown color selected for", label, bg);
+            // // // .log("Brown color selected for", label, bg);
             // brown car, light bg
         },
 
         Blue: (label, bg) => {
             handleColorChange(label, "#7C9AAE", bg);
-            // // console.log("Black color selected for", label, bg);
+            // // // .log("Black color selected for", label, bg);
             // cool blue car, dark navy bg
         },
 
         Black: (label, bg) => {
-            // // console.log("Black color selected for", label, bg);
+            // // // .log("Black color selected for", label, bg);
             handleColorChange(label, "#4A4F42", bg); // black car, light bg
         },
 
         Gray: (label, bg) => {
-            // // console.log("Gray color selected for", label);
+            // // // .log("Gray color selected for", label);
             handleColorChange(label, "gray", bg); // neutral contrast
         },
 
         Green: (label, bg) => {
-            // // console.log("Green color selected for", label, bg);
+            // // // .log("Green color selected for", label, bg);
             handleColorChange(label, "green", bg); // green car, clean bg
         },
 
         Red: (label, bg) => {
-            // // console.log("Red color selected for", label);
+            // // // .log("Red color selected for", label);
             handleColorChange(label, "red", bg);
-            // // console.log(bg)// soft red contrast bg
+            // // // .log(bg)// soft red contrast bg
         },
 
         ManhattanGreen: (label, bg) => {
-            // // console.log("ManhattanGreen selected for", label);
+            // // // .log("ManhattanGreen selected for", label);
             handleColorChange(label, "#4A4F42", bg); // same as Black
         },
 
         MineralWhiteMetallic: (label, bg) => {
-            // // // console.log("MineralWhiteMetallic selected for", label);
+            // // // // .log("MineralWhiteMetallic selected for", label);
             handleColorChange(label, "#E6E6E6", bg); // light car, deep dark bg
         },
     };
@@ -89,7 +92,6 @@ export const ConfiguratorBar = ({ selectedOption, handleStandChange, handleColor
                                 }`}>
                                 <FaAngleDown size={12} />
                             </div>
-
                             <button
                                 onClick={() => {
                                     handleOptionSelect(option);
@@ -111,8 +113,10 @@ export const ConfiguratorBar = ({ selectedOption, handleStandChange, handleColor
                                             key={subIndex}
                                             onClick={() => {
                                                 const subHandler = subOptionHandlers[subOption.label];
+                                                // .log("SubOption clicked:", subOption.label);
                                                 if (subHandler) {
                                                     subHandler(option.label, subOption.bg);
+                                                    subHandler()
                                                 }
                                             }}
                                             className="flex flex-col items-center p-1 min-w-[60px] flex-shrink-0" // Prevent shrinking

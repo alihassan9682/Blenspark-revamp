@@ -4,12 +4,13 @@ Command: npx gltfjsx@6.5.3 C:\Users\MADIHA\Desktop\BlenSpark\Blenspark-revamp\pu
 Files: C:\Users\MADIHA\Desktop\BlenSpark\Blenspark-revamp\public\BMW.glb [35.06MB] > C:\Users\MADIHA\Desktop\BlenSpark\Blenspark-revamp\BMW-transformed.glb [3.18MB] (91%)
 */
 
-import React from 'react'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import glb from "./BMW-transformed.glb";
 import { useEffect, useRef } from 'react';
 import * as THREE from "three"
-export function Model(props) {
+import React, { forwardRef, useImperativeHandle } from 'react';
+
+export const Model = forwardRef((props, ref) => {
   const group = React.useRef()
   const { nodes, materials, animations } = useGLTF(glb)
   const { actions } = useAnimations(animations, group)
@@ -33,52 +34,83 @@ export function Model(props) {
     props.onRefsReady(meshRefs, "car");
   }, []);
 
-
+  useImperativeHandle(ref, () => ({
+    handleClick,
+  }));
   const handleClick = (name) => {
-    const action = actions[name];
-    if (!action) {
-      console.warn(`Animation ${name} not found`);
-      return;
+    // Define individual animation mappings
+    const animationMap = {
+      doorfl: 'inmx7m60i_doorfl_inmx7m60i_body_0Action',
+      doorrl: 'inmx7m60i_doorrl_inmx7m60i_body_0Action',
+      doorfr: 'inmx7m60i_doorfr_inmx7m60i_body_0Action',
+      doorrr: 'inmx7m60i_doorrr_inmx7m60i_body_0Action',
+      hood: 'inmx7m60i_hood_inmx7m60i_body_0Action',
+      trunk: "inmx7m60i_tailgate_inmx7m60i_body_0Action"
+    };
+
+    let namesToAnimate = [];
+
+    if (name === 'Doors') {
+      namesToAnimate = ['doorfl', 'doorrl', 'doorfr', 'doorrr'];
+    } else if (name === 'Hood') {
+      namesToAnimate = ['hood'];
+    } else if (animationMap[name]) {
+      namesToAnimate = [name];
+    } else if (name === "Trunk") {
+      namesToAnimate = ["trunk"];
+    }
+    else {
+      // fallback for full animation name directly passed
+      namesToAnimate = [name];
     }
 
-    action.setLoop(THREE.LoopOnce, 0);
-    action.clampWhenFinished = true;
+    namesToAnimate.forEach((n) => {
+      const resolvedName = animationMap[n] || n;
+      const action = actions[resolvedName];
 
-    action.getMixer().removeEventListener('finished');
+      if (!action) {
+        console.warn(`Animation ${resolvedName} not found`);
+        return;
+      }
 
-    const onFinished = () => {
-      // console.log(`Animation ${name} finished`);
-      action.paused = true;
-      action.getMixer().removeEventListener('finished', onFinished);
-    };
-    action.getMixer().addEventListener('finished', onFinished);
+      action.setLoop(THREE.LoopOnce, 0);
+      action.clampWhenFinished = true;
 
-    // If not running, determine direction based on current time
-    if (!action.isRunning()) {
-      if (action.time === 0 || action.timeScale === -1) {
-        // Play forward
-        action.timeScale = 1;
-        action.reset().play();
-      } else {
-        // Play in reverse from the end
-        action.timeScale = -1;
+      action.getMixer().removeEventListener('finished');
+
+      const onFinished = () => {
+        action.paused = true;
+        action.getMixer().removeEventListener('finished', onFinished);
+      };
+      action.getMixer().addEventListener('finished', onFinished);
+
+      if (!action.isRunning()) {
+        if (action.time === 0 || action.timeScale === -1) {
+          action.timeScale = 1;
+          action.reset().play();
+        } else {
+          action.timeScale = -1;
+          action.paused = false;
+          action.time = action.getClip().duration;
+          action.play();
+        }
+      } else if (action.paused) {
+        if (action.timeScale === 1) {
+          action.timeScale = -1;
+          action.time = action.getClip().duration;
+        } else {
+          action.timeScale = 1;
+          action.reset();
+        }
         action.paused = false;
-        action.time = action.getClip().duration; // Start at the end
         action.play();
       }
-    } else if (action.paused) {
-      // Toggle direction on pause
-      if (action.timeScale === 1) {
-        action.timeScale = -1;
-        action.time = action.getClip().duration; // Reverse from end
-      } else {
-        action.timeScale = 1;
-        action.reset();
-      }
-      action.paused = false;
-      action.play();
-    }
+    });
   };
+  useEffect(() => {
+    console.log(actions)
+  }, [])
+
   return (
     <group ref={group} {...props} dispose={null}>
       <group name="Scene">
@@ -99,41 +131,41 @@ export function Model(props) {
         <mesh name="inmx7m60i_headlights1_inmx7m60i_running_r_0" geometry={nodes.inmx7m60i_headlights1_inmx7m60i_running_r_0.geometry} material={materials.PaletteMaterial006} rotation={[-Math.PI / 2, 0, 0]} />
         <mesh name="inmx7m60i_windscreen_inmx7m60i_glass_0" geometry={nodes.inmx7m60i_windscreen_inmx7m60i_glass_0.geometry} material={materials.PaletteMaterial004} rotation={[-Math.PI / 2, 0, 0]} />
         <mesh name="inmx7m60i_steeringwheel_inmx7m60i_logo_0" geometry={nodes.inmx7m60i_steeringwheel_inmx7m60i_logo_0.geometry} material={materials.inmx7m60i_logo} position={[0.359, 0.996, 0.368]} rotation={[-2.683, 0, 0]} />
-        <mesh name="inmx7m60i_doorfl_inmx7m60i_body_0" geometry={nodes.inmx7m60i_doorfl_inmx7m60i_body_0.geometry} material={materials.PaletteMaterial003} position={[0.851, 0.598, 0.811]} rotation={[-Math.PI / 2, 0, 0]} onClick={() => handleClick("inmx7m60i_doorfl_inmx7m60i_body_0Action")}>
+        <mesh name="inmx7m60i_doorfl_inmx7m60i_body_0" geometry={nodes.inmx7m60i_doorfl_inmx7m60i_body_0.geometry} material={materials.PaletteMaterial003} position={[0.851, 0.598, 0.811]} rotation={[-Math.PI / 2, 0, 0]} >
           <mesh name="inmx7m60i_doorfl_inmx7m60i_black_0" geometry={nodes.inmx7m60i_doorfl_inmx7m60i_black_0.geometry} material={materials.PaletteMaterial001} position={[-0.142, 0.515, 0.393]} />
           <mesh name="inmx7m60i_doorfl_inmx7m60i_glass_0" geometry={nodes.inmx7m60i_doorfl_inmx7m60i_glass_0.geometry} material={materials.PaletteMaterial004} position={[-0.052, 0.46, 0.569]} />
           <mesh name="inmx7m60i_doorfl_inmx7m60i_leather1_0" geometry={nodes.inmx7m60i_doorfl_inmx7m60i_leather1_0.geometry} material={materials.inmx7m60i_leather1} position={[-0.184, 0.53, 0.231]} />
           <mesh name="inmx7m60i_doorfl_inmx7m60i_signalL_0" geometry={nodes.inmx7m60i_doorfl_inmx7m60i_signalL_0.geometry} material={materials.PaletteMaterial005} position={[0.061, 0.273, 0.507]} />
         </mesh>
-        <mesh name="inmx7m60i_doorrl_inmx7m60i_body_0" geometry={nodes.inmx7m60i_doorrl_inmx7m60i_body_0.geometry} material={materials.PaletteMaterial003} position={[0.804, 0.677, -0.176]} rotation={[-Math.PI / 2, 0, 0]} onClick={() => handleClick("inmx7m60i_doorrl_inmx7m60i_body_0Action")}>
+        <mesh name="inmx7m60i_doorrl_inmx7m60i_body_0" geometry={nodes.inmx7m60i_doorrl_inmx7m60i_body_0.geometry} material={materials.PaletteMaterial003} position={[0.804, 0.677, -0.176]} rotation={[-Math.PI / 2, 0, 0]}>
           <mesh name="inmx7m60i_doorrl_inmx7m60i_black_0" geometry={nodes.inmx7m60i_doorrl_inmx7m60i_black_0.geometry} material={materials.PaletteMaterial001} />
           <mesh name="inmx7m60i_doorrl_inmx7m60i_glass_0" geometry={nodes.inmx7m60i_doorrl_inmx7m60i_glass_0.geometry} material={materials.PaletteMaterial004} />
           <mesh name="inmx7m60i_doorrl_inmx7m60i_leather1_0" geometry={nodes.inmx7m60i_doorrl_inmx7m60i_leather1_0.geometry} material={materials.inmx7m60i_leather1} />
         </mesh>
-        <mesh name="inmx7m60i_doorfr_inmx7m60i_body_0" geometry={nodes.inmx7m60i_doorfr_inmx7m60i_body_0.geometry} material={materials.PaletteMaterial003} position={[-0.85, 0.596, 0.814]} rotation={[-Math.PI / 2, 0, 0]} onClick={() => handleClick("inmx7m60i_doorfr_inmx7m60i_body_0Action")}>
+        <mesh name="inmx7m60i_doorfr_inmx7m60i_body_0" geometry={nodes.inmx7m60i_doorfr_inmx7m60i_body_0.geometry} material={materials.PaletteMaterial003} position={[-0.85, 0.596, 0.814]} rotation={[-Math.PI / 2, 0, 0]}>
           <mesh name="inmx7m60i_doorfr_inmx7m60i_black_0" geometry={nodes.inmx7m60i_doorfr_inmx7m60i_black_0.geometry} material={materials.PaletteMaterial001} position={[0.044, -0.003, 0.054]} />
           <mesh name="inmx7m60i_doorfr_inmx7m60i_glass_0" geometry={nodes.inmx7m60i_doorfr_inmx7m60i_glass_0.geometry} material={materials.PaletteMaterial004} position={[0.044, -0.003, 0.054]} />
           <mesh name="inmx7m60i_doorfr_inmx7m60i_leather1_0" geometry={nodes.inmx7m60i_doorfr_inmx7m60i_leather1_0.geometry} material={materials.inmx7m60i_leather1} position={[0.044, -0.003, 0.054]} />
           <mesh name="inmx7m60i_doorfr_inmx7m60i_signalL_0" geometry={nodes.inmx7m60i_doorfr_inmx7m60i_signalL_0.geometry} material={materials.PaletteMaterial005} position={[0.044, -0.003, 0.054]} />
         </mesh>
-        <mesh name="inmx7m60i_doorrr_inmx7m60i_body_0" geometry={nodes.inmx7m60i_doorrr_inmx7m60i_body_0.geometry} material={materials.PaletteMaterial003} position={[-0.804, 0.69, -0.165]} rotation={[-Math.PI / 2, 0, 0]} onClick={() => handleClick("inmx7m60i_doorrr_inmx7m60i_body_0Action")}>
+        <mesh name="inmx7m60i_doorrr_inmx7m60i_body_0" geometry={nodes.inmx7m60i_doorrr_inmx7m60i_body_0.geometry} material={materials.PaletteMaterial003} position={[-0.804, 0.69, -0.165]} rotation={[-Math.PI / 2, 0, 0]} >
           <mesh name="inmx7m60i_doorfr_inmx7m60i_signalR_0" geometry={nodes.inmx7m60i_doorfr_inmx7m60i_signalR_0.geometry} material={materials.PaletteMaterial005} position={[-0.002, -0.982, -0.04]} />
           <mesh name="inmx7m60i_doorrr_inmx7m60i_black_0" geometry={nodes.inmx7m60i_doorrr_inmx7m60i_black_0.geometry} material={materials.PaletteMaterial001} />
           <mesh name="inmx7m60i_doorrr_inmx7m60i_glass_0" geometry={nodes.inmx7m60i_doorrr_inmx7m60i_glass_0.geometry} material={materials.PaletteMaterial004} />
           <mesh name="inmx7m60i_doorrr_inmx7m60i_leather1_0" geometry={nodes.inmx7m60i_doorrr_inmx7m60i_leather1_0.geometry} material={materials.inmx7m60i_leather1} />
         </mesh>
-        <mesh name="inmx7m60i_hood_inmx7m60i_body_0" geometry={nodes.inmx7m60i_hood_inmx7m60i_body_0.geometry} material={materials.PaletteMaterial003} position={[0.072, 1.086, 0.841]} rotation={[-Math.PI / 2, 0, 0]} onClick={() => handleClick("inmx7m60i_hood_inmx7m60i_body_0Action")}>
+        <mesh name="inmx7m60i_hood_inmx7m60i_body_0" geometry={nodes.inmx7m60i_hood_inmx7m60i_body_0.geometry} material={materials.PaletteMaterial003} position={[0.072, 1.086, 0.841]} rotation={[-Math.PI / 2, 0, 0]} >
           <mesh name="inmx7m60i_hood_inmx7m60i_carpet_0" geometry={nodes.inmx7m60i_hood_inmx7m60i_carpet_0.geometry} material={materials.inmx7m60i_carpet} position={[-0.072, 0.841, -1.086]} />
           <mesh name="inmx7m60i_hood_inmx7m60i_logo_0" geometry={nodes.inmx7m60i_hood_inmx7m60i_logo_0.geometry} material={materials.inmx7m60i_logo} position={[-0.072, 0.841, -1.086]} />
         </mesh>
         <mesh name="inmx7m60i_rtaillight_inmx7m60i_taillight_0" geometry={nodes.inmx7m60i_rtaillight_inmx7m60i_taillight_0.geometry} material={materials.PaletteMaterial005} rotation={[-Math.PI / 2, 0, 0]} />
-        <mesh name="inmx7m60i_r_bump1_inmx7m60i_body_0001" geometry={nodes.inmx7m60i_r_bump1_inmx7m60i_body_0001.geometry} material={materials.PaletteMaterial003} position={[0, 0.575, -2.236]} rotation={[-Math.PI / 2, 0, 0]} onClick={()=>handleClick("inmx7m60i_r_bump1_inmx7mi601_body_0Action")}>
+        <mesh name="inmx7m60i_r_bump1_inmx7m60i_body_0001" geometry={nodes.inmx7m60i_r_bump1_inmx7m60i_body_0001.geometry} material={materials.PaletteMaterial003} position={[0, 0.575, -2.236]} rotation={[-Math.PI / 2, 0, 0]}>
           <mesh name="inmx7m60i_chassis_inmx7m60i_leather1_0001" geometry={nodes.inmx7m60i_chassis_inmx7m60i_leather1_0001.geometry} material={materials.inmx7m60i_leather1} position={[0, -2.236, -0.575]} />
         </mesh>
         <mesh name="_gltfNode_61" geometry={nodes._gltfNode_61.geometry} material={materials.PaletteMaterial002} position={[-0.032, -0.014, 0.057]} rotation={[-Math.PI / 2, 0, Math.PI / 2]} scale={0.001} />
       </group>
     </group>
   )
-}
+})
 
 useGLTF.preload('/BMW-transformed.glb')

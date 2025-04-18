@@ -11,20 +11,29 @@ import * as THREE from "three";
 import AutoCamera from "./autoCamera.jsx"
 import { useFrame } from '@react-three/fiber';
 import { Options } from "./config.js"
-import QRCode from "react-qr-code";
+// import QRCode from "react-qr-code";
 import { Model } from "./BMW.jsx"
-import { Sofa } from "./Sofa.jsx"
+// import { Sofa } from "./Sofa.jsx"
 import { Sofa1 } from "./Sofa1.jsx"
+import { Sofa } from "./Sofa12.jsx"
+import { BMW1 } from "./BMW3.jsx"
+import { BMW31 } from "./BMW31.jsx"
+import SofaLighting from "../../assets/small_empty_room_3_4k.hdr"
+import CarLighting from "../../assets/paul_lobe_haus_4k.exr"
 const InteractiveModelViewer = () => {
     const [selectedOption, setSelectedOption] = useState(Options[0]);
-    const [showQRScanner, setShowQRScanner] = useState(false);
-    const [qrCodeData, setQrCodeData] = useState("");
+    const [Lighting, setLighting] = useState(hdri)
+    const animationRef = useRef()
+    // const [showQRScanner, setShowQRScanner] = useState(false);
+    // const [qrCodeData, setQrCodeData] = useState("");
     const [metalStand, setMetalStand] = useState(false);
+    const [sliverStand, setSliverStand] = useState(false);
+    const [woodStand, setWoodStand] = useState(true);
     const [barActive, setBarActive] = useState(false);
-    const [rim1,setRIm1] = useState(false)
-    const [bg, setBg] = useState()// State for metal stands
+    // const [rim1,setRIm1] = useState(false)
+    const [bg, setBg] = useState("white")// State for metal stands
     const ModelRef = useRef();
-    const [position, setPosition] = useState([0, 0, 5])
+    // const [position, setPosition] = useState([0, 0, 5])
     const SofeRef = useRef({});
     const CarRefs = useRef({});
     const [zooming, setZooming] = useState(false);
@@ -33,19 +42,36 @@ const InteractiveModelViewer = () => {
 
 
 
-    const resetToDefault = () => {
-        setCameraPos([0, 0, 5]); // your default camera position
-        if (ModelRef?.current) {
-            ModelRef.current.rotation.y = 0;
+    // const resetToDefault = () => {
+    //     setCameraPos([0, 0, 5]); // your default camera position
+    //     if (ModelRef?.current) {
+    //         ModelRef.current.rotation.y = 0;
+    //     }
+
+    //     setZooming(false);
+    // };
+
+
+
+    const handleStandChange = (name) => {
+        console.log("name", name)
+        if (name === "Wood") {
+            setMetalStand(false)
+            setWoodStand(true)
+            setSliverStand(false)
         }
-
-        setZooming(false);
+        if (name === "Metal") {
+            setMetalStand(true)
+            setWoodStand(false)
+            setSliverStand(false)
+        }
+        if (name === "Sliver") {
+            setMetalStand(false)
+            setWoodStand(false)
+            setSliverStand(true)
+        }
     };
-
-
-
-    const handleStandChange = (bool) => setMetalStand(bool);
-    const handleRimChange =(bool) => setRIm1(bool)
+    // const handleRimChange =(bool) => setRIm1(bool)
     const handleRefsReady = (refs, name) => {
         if (name === "car") {
             CarRefs.current = refs;
@@ -86,7 +112,6 @@ const InteractiveModelViewer = () => {
         Frame: (color) => {
 
             SofeRef.current.Taylor_Sofa001.current.material.color.set(color);
-            SofeRef.current.Stands.current.material.color.set(color);
             setBg(color)
         },
         Cushions: (color) => {
@@ -98,6 +123,7 @@ const InteractiveModelViewer = () => {
         Body: (color) => {
             if (CarRefs.current.Body) CarRefs?.current?.Body?.current.material?.color?.set(color);
             setBg(color)
+            // console.log(color)
         },
         Wheels: (color) => {
             if (CarRefs.current.wheel) CarRefs?.current?.wheel?.current.material?.color?.set(color);
@@ -113,7 +139,6 @@ const InteractiveModelViewer = () => {
     };
     const handleColorChange = (meshName, color, bg) => {
         const handler = colorHandlers[meshName];
-        setBg(bg)
         if (handler) handler(color);
     };
 
@@ -121,7 +146,7 @@ const InteractiveModelViewer = () => {
 
     const handleExport = async () => {
         setLoading(true);
-        const device = getDevicePlatform();
+        // const device = getDevicePlatform();
 
         // if (device !== "iOS" && device !== "Android") {
         //     console.log("Platform:", device);
@@ -148,17 +173,21 @@ const InteractiveModelViewer = () => {
         await handleExportUSDZ(ModelRef);
         setLoading(false);
     };
+    const triggerAnimation = (name) => {
+        if (animationRef.current) {
+            animationRef.current.handleClick(name); // Call function from ChildA
+        }
+    }
 
+    // const getDevicePlatform = () => {
+    //     const ua = navigator.userAgent;
 
-    const getDevicePlatform = () => {
-        const ua = navigator.userAgent;
-
-        if (/android/i.test(ua)) return "Android";
-        if (/iPad|iPhone|iPod/.test(ua)) return "iOS";
-        if (/Windows NT/.test(ua)) return "Windows";
-        if (/Macintosh/.test(ua)) return "Mac";
-        return "Unknown";
-    };
+    //     if (/android/i.test(ua)) return "Android";
+    //     if (/iPad|iPhone|iPod/.test(ua)) return "iOS";
+    //     if (/Windows NT/.test(ua)) return "Windows";
+    //     if (/Macintosh/.test(ua)) return "Mac";
+    //     return "Unknown";
+    // };
 
     const handleZoom = () => {
         const pos = CarRefs?.current?.chassisCarpet?.current?.position;
@@ -175,29 +204,33 @@ const InteractiveModelViewer = () => {
     useEffect(() => {
         setLoading(true);
         setBg("white")
+        if (selectedOption === "Sofa") {
+            setLighting(SofaLighting)
+        }
+        if (selectedOption === "Car") {
+            setLighting(CarLighting)
+        }
         const timeout = setTimeout(() => setLoading(false), 1500); // or wait for actual loading
         return () => clearTimeout(timeout);
-    }, [selectedOption.label]);
-    useEffect(() => {
-        const device = getDevicePlatform()
+    }, [selectedOption]);
 
-        console.log("device", device)
-    }, [])
     return (
-        <div className="flex overflow-hidden relative">
+
+        <div className="flex flex-col md:flex-row h-screen relative overflow-hidden">
             {/* Fullscreen Canvas */}
-            <div className="relative flex-1">
+            <div className="relative flex-1 w-full h-full">
                 {loading && (
                     <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                         <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-white"></div>
                     </div>
                 )}
+
                 <Canvas
                     shadows
                     dpr={[1, 2]}
                     style={{
-                        height: "100vh",
-                        transition: "background 1s ease", // Smooth background transition
+                        height: "100dvh",
+                        transition: "background 1s ease",
                         background: bg
                     }}
                 >
@@ -205,90 +238,84 @@ const InteractiveModelViewer = () => {
                     <CameraRig
                         position={cameraPos}
                         active={zooming}
-                        onDone={() => setZooming(false)} // Stop animating
-                    />                    <ambientLight intensity={1} />
+                        onDone={() => setZooming(false)}
+                    />
+                    <ambientLight intensity={1} />
                     <directionalLight
-                        position={[0, 5, 0]} // Directly above
-                        target-position={[0, 0, 0]} // Points straight down
+                        position={[0, 5, 0]}
+                        target-position={[0, 0, 0]}
                         intensity={2.5}
                         castShadow
                         shadow-mapSize-width={2048}
                         shadow-mapSize-height={2048}
                     />
-                    <Environment files={hdri} />
+                    <Environment files={Lighting} />
+
+                    <mesh
+                        receiveShadow
+                        position={[0, -1.1, 0]}  // Static position (adjust Y if needed)
+                    >
+                        <cylinderGeometry args={[3, 3, 0.2, 64]} />
+                        <meshStandardMaterial color={bg} />
+                    </mesh>
+
                     <Suspense fallback={null}>
                         <group ref={ModelRef} position={[0, -1, 0]} rotation={[0, 0, 0]} scale={[1, 1, 1]}>
                             {{
                                 "Fridge": <WineCooler />,
-                                "Car": <Model onRefsReady={handleRefsReady} />,
-                                "Sofa": <Sofa1 onRefsReady={handleRefsReady} Stand={metalStand} />,
+                                "Car": <Model onRefsReady={handleRefsReady} ref={animationRef} />,
+                                "Sofa": <Sofa onRefsReady={handleRefsReady} metalStand={metalStand} woodStand={woodStand} sliverStand={sliverStand} />,
                             }[selectedOption.label] || null}
                         </group>
                     </Suspense>
+
                     <OrbitControls
-                        target={[0, 0, 0]}
+                        target={[0, 0, 0]}  // Controls ONLY the model (inside ModelRef group)
                         enableZoom={true}
                         enableRotate={true}
                         enablePan={true}
                         maxPolarAngle={Math.PI / 2}
                     />
-
-                    {/* Constant shadow plane */}
-                    <mesh
-                        receiveShadow
-                        rotation={[-Math.PI / 2, 0, 0]}
-                        position={[0, -1.01, 0]}
-                    >
-                        <planeGeometry args={[100, 100]} />
-                        <shadowMaterial transparent opacity={0.5} color="" />
-                    </mesh>
                 </Canvas>
-                {/* Overlay Buttons */}
-                {/* <div className="absolute top-10 left-5 z-10 flex flex-col gap-4">
-                    <button
-                        onClick={
-                        className="text-white bg-blue-400 rounded-xl px-3 py-2"
-                    >
-                        View in AR
-                    </button>
-                </div> */}
 
                 {/* Configurator Bar */}
-                <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10 flex items-center justify-center gap-4">
+                <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10">
                     <ConfiguratorBar
                         selectedOption={selectedOption}
                         handleStandChange={handleStandChange}
                         handleColorChange={handleColorChange}
                         handleZoom={handleZoom}
                         barActive={barActive}
-                        handleRimChange={handleRimChange}
                     />
                 </div>
             </div>
 
-            {/* Fixed Sidebar */}
-            <div className="fixed top-1/2 transform -translate-y-1/2 w-1/4 flex justify-center h-auto right-0 mr-4 z-10 border rounded-xl">
-                <ConfigSidebar options={Options} onOptionSelect={handleOptionSelect} handleExport={handleExport} setBarActive={setBarActive} barActive={barActive} />
+            {/* Sidebar - Adjust positioning for mobile/desktop */}
+            <div className={`
+    fixed md:relative
+    bottom-0 md:bottom-auto
+    left-0 md:left-auto
+    right-0 md:right-auto
+    md:top-1/2 md:transform md:-translate-y-1/2
+    w-full md:w-1/4
+    h-auto max-h-[100vh] md:max-h-none
+    md:mr-4
+    z-10
+    bg-white md:bg-transparent
+    shadow-lg md:shadow-none
+    rounded-t-xl md:rounded-xl
+    overflow-y-auto
+  `}>
+                <ConfigSidebar
+                    Options={Options}
+                    onOptionSelect={handleOptionSelect}
+                    handleExport={handleExport}
+                    setBarActive={setBarActive}
+                    barActive={barActive}
+                    selectedOption={selectedOption}
+                    onCarControlClick={triggerAnimation}
+                />
             </div>
-
-            {/* QR Code Scanner Modal */}
-            {showQRScanner && (
-                <div className="absolute left-0 inset-0 bg-black bg-opacity-50 flex justify-center items-center z-20">
-                    <div className="bg-white p-4 rounded-lg w-1/3 flex flex-col justify-center">
-                        <h2 className="text-lg font-bold mb-4">Scan QR Code</h2>
-                        <QRCode value={qrCodeData} className="w-full" />
-                        <p className="text-sm text-gray-500 mt-2">
-                            Scan the QR code to download the model
-                        </p>
-                        <button
-                            onClick={() => setShowQRScanner(false)}
-                            className="text-white bg-red-500 rounded-xl px-3 py-2 mt-4"
-                        >
-                            Close
-                        </button>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };
