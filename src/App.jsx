@@ -13,9 +13,11 @@ import Hero from "./Components/home/Hero";
 import InteractiveModelViewer from "./Components/3DConfigurator/ModelViewer"
 import Contact from "./Components/contact/contact";
 import { Toaster } from 'react-hot-toast';
+import { useLocation } from "react-router-dom";
 function App() {
+  const location = useLocation()
   return (
-    <Router>
+    <>
       <Toaster
         position="top-right"
         toastOptions={{
@@ -24,7 +26,7 @@ function App() {
           }
         }}
       />
-      <div className="font-montserrat sm:pl-0 md:pl-20">
+      <div className="font-montserrat sm:pl-16  relative">
         <div className="sticky top-0 z-50 bg-white bg-opacity-75">
           <Header />
         </div>
@@ -34,11 +36,12 @@ function App() {
           <Route path="/home" element={<Hero />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/3d-configurator" element={<InteractiveModelViewer />} />
-          <Route path="*" element={<Navigate to="/home" />} />
+          {/* <Route path="*" element={<Navigate to="/home" />} /> */}
         </Routes>
-        <Footer />
+        {location.pathname !== "/3d-configurator" && (<Footer />)}
+
       </div>
-    </Router>
+    </>
   );
 }
 

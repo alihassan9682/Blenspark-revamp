@@ -1,13 +1,13 @@
 import React from "react";
-import { TfiWorld } from "react-icons/tfi";
-import { AiOutlinePython } from "react-icons/ai";
-import { TbHexagon3D } from "react-icons/tb";
-import { LuCodesandbox } from "react-icons/lu";
-import { BsBuilding } from "react-icons/bs";
-import { PiCubeFocus } from "react-icons/pi";
-import { RiPencilRulerLine } from "react-icons/ri";
+// import { TfiWorld } from "react-icons/tfi";
+// import { AiOutlinePython } from "react-icons/ai";
+// import { TbHexagon3D } from "react-icons/tb";
+// import { LuCodesandbox } from "react-icons/lu";
+// import { BsBuilding } from "react-icons/bs";
+// import { PiCubeFocus } from "react-icons/pi";
+// import { RiPencilRulerLine } from "react-icons/ri";
 import { LuDownload } from "react-icons/lu";
-import { GiShoppingCart } from "react-icons/gi";
+// import { GiShoppingCart } from "react-icons/gi";
 import { ServicesData } from "../../Data/ServicesCard";
 const Services = () => {
     const handleOnClick = () => {

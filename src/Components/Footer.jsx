@@ -21,7 +21,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-gradient-to-r from-[#0086a4] to-[#5ce1e6] text-white">
+    <footer className="bg-gradient-to-r from-[#0086a4] to-[#5ce1e6] text-white p-10">
       <div className="container mx-auto px-6 py-10">
         {/* Header */}
         <h1 className="text-3xl lg:text-5xl font-semibold text-center mb-8">

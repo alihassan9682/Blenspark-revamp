@@ -3,7 +3,7 @@ import React from 'react'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import * as THREE from 'three';
 import model from "./wine_cooler-transformed.glb"
-import { useRef, useEffect } from 'react';
+import {useEffect } from 'react';
 export function WineCooler(
   { color, ...props }
 ) {

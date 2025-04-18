@@ -1,116 +1,146 @@
-import React, { useState } from "react";
-import { IoCarSportOutline } from "react-icons/io5";
-import { GiCarDoor } from "react-icons/gi";
-import { IoColorPaletteOutline } from "react-icons/io5";
-import { TbWheel } from "react-icons/tb";
-import { FaLock, FaUnlock, FaPaintBrush, FaCircle, FaAngleDown } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { FaAngleDown } from "react-icons/fa";
+import { SofaOptions, Caroptions } from "./config";
 
-const ConfiguratorBar = ({ options,  }) => {
+
+export const ConfiguratorBar = ({ selectedOption, handleStandChange, handleColorChange, handleZoom, barActive, handleRimChange }) => {
     const [activeOption, setActiveOption] = useState(null);
+    const [selectedBar, setSelectedBar] = useState(null);
 
     const handleOptionSelect = (option) => {
         setActiveOption(activeOption === option.label ? null : option.label); // Toggle submenu
     };
 
+    const subOptionHandlers = {
+        WoodenStands: () => {
+            // console.log("Wooden Stands selected");
+            handleStandChange(true)
+        },
+        MetalStands: () => {
+            // console.log("Metal Stands selected");
+            handleStandChange(false)
+        },
+        Rim1: () => {
+            handleRimChange(true)
+        },
+        Rim2: () => {
+            handleRimChange(false)
+        },
+        Alpine: (label, bg) => {
+            handleColorChange(label, "#FFFFFF", bg);
+            // // console.log("Black color selected for", label, bg);
+            // white car, dark bg
+        },
+        Brown: (label, bg) => {
+            handleColorChange(label, "#E0B778", bg);
+            // // console.log("Brown color selected for", label, bg);
+            // brown car, light bg
+        },
+
+        Blue: (label, bg) => {
+            handleColorChange(label, "#7C9AAE", bg);
+            // // console.log("Black color selected for", label, bg);
+            // cool blue car, dark navy bg
+        },
+
+        Black: (label, bg) => {
+            // // console.log("Black color selected for", label, bg);
+            handleColorChange(label, "#4A4F42", bg); // black car, light bg
+        },
+
+        Gray: (label, bg) => {
+            // // console.log("Gray color selected for", label);
+            handleColorChange(label, "gray", bg); // neutral contrast
+        },
+
+        Green: (label, bg) => {
+            // // console.log("Green color selected for", label, bg);
+            handleColorChange(label, "green", bg); // green car, clean bg
+        },
+
+        Red: (label, bg) => {
+            // // console.log("Red color selected for", label);
+            handleColorChange(label, "red", bg);
+            // // console.log(bg)// soft red contrast bg
+        },
+
+        ManhattanGreen: (label, bg) => {
+            // // console.log("ManhattanGreen selected for", label);
+            handleColorChange(label, "#4A4F42", bg); // same as Black
+        },
+
+        MineralWhiteMetallic: (label, bg) => {
+            // // // console.log("MineralWhiteMetallic selected for", label);
+            handleColorChange(label, "#E6E6E6", bg); // light car, deep dark bg
+        },
+    };
+    useEffect(() => {
+        selectedOption.label === "Sofa" ? setSelectedBar(SofaOptions) : setSelectedBar(Caroptions);
+    }, [selectedOption]);
     return (
-        <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 bg-gray-200 bg-opacity-50 text-white py-3 px-4 flex justify-center items-center shadow-md z-50 rounded-lg">
-            {options.map((option, index) => (
-                <React.Fragment key={index}>
-                    <div className="relative flex flex-col items-center">
-                        {/* Downward Arrow */}
-                        <div
-                            className={`absolute bottom-full mb-2 text-[#359dad] transition-all duration-300 ease-in-out ${activeOption === option.label ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
-                                }`}
-                        >
-                            <FaAngleDown size={20} />
-                        </div>
-                        <button
-                            onClick={() => handleOptionSelect(option)}
-                            className="text-[#359dad] transform hover:scale-110 font-semibold mx-4 flex items-center justify-center"
-                            title={option.label}
-                        >
-                            {option.icon}
-                        </button>
-                        {/* Submenu */}
-                        <div
-                            className={`absolute bottom-full mb-8 bg-gray-200 bg-opacity-90 text-gray-800 py-3 px-4 flex justify-center items-center shadow-md z-50 rounded-lg transition-all duration-300 ease-in-out ${activeOption === option.label
-                                    ? "opacity-100 translate-y-0 scale-100"
-                                    : "opacity-0 -translate-y-4 scale-95 pointer-events-none"
-                                }`}
-                        >
-                            <div className="flex items-center">
-                                {option.subOptions?.map((subOption, subIndex) => (
-                                    <React.Fragment key={subIndex}>
+        barActive && (
+            <div className={`transition-all duration-500 ease-in-out transform flex bg-gray-200 flex-row justify-center items-center gap-4  w-auto  rounded-lg p-4  ${barActive ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
+                }`}>
+                {selectedBar?.map((option, index) => (
+                    <React.Fragment key={index}>
+                        <div className="relative flex flex-col items-center">
+                            {/* Downward Arrow */}
+                            <div className={`absolute bottom-full mb-2 text-[#359dad] transition-all duration-400 ease-in-out ${activeOption === option.label ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+                                }`}>
+                                <FaAngleDown size={12} />
+                            </div>
+
+                            <button
+                                onClick={() => {
+                                    handleOptionSelect(option);
+                                }}
+                                className="text-[#359dad] w-auto transform hover:scale-110 font-semibold mx-4 flex items-center justify-center"
+                                title={option.label}
+                            >
+                                {option.icon}
+                            </button>
+
+                            {/* Submenu - Strictly horizontal layout */}
+                            <div className={`absolute bottom-full mb-6 px-4 py-3 bg-white   text-gray-800 backdrop-blur-sm transition-all duration-400 ease-in-out z-50 rounded-lg shadow-lg ${activeOption === option.label
+                                ? "opacity-100 translate-y-0 scale-100"
+                                : "opacity-0 -translate-y-4 scale-95 pointer-events-none"
+                                }`}>
+                                <div className="flex flex-nowrap items-center overflow-x-auto gap-3 py-1 scrollbar-hide"> {/* Horizontal scrolling if needed */}
+                                    {option.subOptions?.map((subOption, subIndex) => (
                                         <button
-                                            onClick={() =>
-                                                console.log(`Selected sub-option: ${subOption.label}`)
-                                            }
-                                            className="text-[#359dad] transform hover:scale-110 font-semibold mx-4 flex items-center justify-center"
+                                            key={subIndex}
+                                            onClick={() => {
+                                                const subHandler = subOptionHandlers[subOption.label];
+                                                if (subHandler) {
+                                                    subHandler(option.label, subOption.bg);
+                                                }
+                                            }}
+                                            className="flex flex-col items-center p-1 min-w-[60px] flex-shrink-0" // Prevent shrinking
                                             title={subOption.label}
                                         >
-                                            {subOption.icon}
+                                            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white shadow-md flex items-center justify-center bg-gray-50">
+                                                {subOption.iconUrl ? (
+                                                    <img
+                                                        src={subOption.iconUrl}
+                                                        alt={subOption.label}
+                                                        className="w-full h-full object-cover"
+                                                    />
+                                                ) : (
+                                                    <div className="text-xl">{subOption.icon}</div>
+                                                )}
+                                            </div>
+                                            <span className="text-xs mt-1.5 text-center max-w-[60px] truncate">
+                                                {subOption.label}
+                                            </span>
                                         </button>
-                                        {/* Divider line between sub-options */}
-                                        {subIndex < option.subOptions.length - 1 && (
-                                            <div className="w-px h-6 bg-gray-400 mx-2"></div>
-                                        )}
-                                    </React.Fragment>
-                                ))}
+                                    ))}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    {/* Full-height divider line */}
-                    {index < options.length - 1 && (
-                        <div className="w-px bg-gray-400 self-stretch"></div>
-                    )}
-                </React.Fragment>
-            ))}
-        </div>
+                        {index < selectedBar?.length - 1 && <div className="w-px bg-gray-200 self-stretch"></div>}
+                    </React.Fragment>
+                ))}
+            </div>
+        )
     );
 };
-
-// Example usage
-const Example = () => {
-    const options = [
-        {
-            label: "Doors",
-            icon: <GiCarDoor size={60} />,
-            subOptions: [
-                { label: "Open Door", icon: <FaUnlock size={40} /> },
-                { label: "Close Door", icon: <FaLock size={40} /> },
-                { label: "Lock Door", icon: <FaLock size={40} /> },
-            ],
-        },
-        {
-            label: "Colors",
-            icon: <IoColorPaletteOutline size={60} />,
-            subOptions: [
-                { label: "Red", icon: <FaCircle size={40} color="red" /> },
-                { label: "Blue", icon: <FaCircle size={40} color="blue" /> },
-                { label: "Green", icon: <FaCircle size={40} color="green" /> },
-            ],
-        },
-        {
-            label: "Wheels",
-            icon: <TbWheel size={60} />,
-            subOptions: [
-                { label: "Alloy", icon: <FaPaintBrush size={40} /> },
-                { label: "Steel", icon: <FaPaintBrush size={40} /> },
-                { label: "Carbon Fiber", icon: <FaPaintBrush size={40} /> },
-            ],
-        },
-        {
-            label: "Sports",
-            icon: <IoCarSportOutline size={60} />,
-            subOptions: [
-                { label: "Turbo Mode", icon: <IoCarSportOutline size={40} /> },
-                { label: "Eco Mode", icon: <IoCarSportOutline size={40} /> },
-                { label: "Sport Mode", icon: <IoCarSportOutline size={40} /> },
-            ],
-        },
-    ];
-
-    return <ConfiguratorBar options={options} />;
-};
-
-export default Example;

@@ -29,6 +29,7 @@ import Projects from "./porjectsDelivered";
 import Clients from "./clients";
 import AboutUs from "./aboutUs";
 import MeetTheSparkers from "./sparkers";
+import Testimonials from "./testimonal";
 
 const Hero = () => {
   const navigate = useNavigate();
@@ -51,7 +52,7 @@ const Hero = () => {
 
   return (
     <div>
-      <div className="relative h-screen overflow-hidden" ref={scrolltoTop}>
+      <div className="relative h-screen overflow-hidden w-full" ref={scrolltoTop}>
         <video
           autoPlay
           loop
@@ -175,7 +176,7 @@ const Hero = () => {
       <Clients />
       <Projects />
       <AboutUs />
-      <MeetTheSparkers />
+      <Testimonials />
     </div>
   );
 };
