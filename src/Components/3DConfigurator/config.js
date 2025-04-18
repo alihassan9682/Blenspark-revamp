@@ -1,15 +1,9 @@
-import { IoCarSportOutline } from "react-icons/io5";
 import { GiCarDoor } from "react-icons/gi";
 import { TbWheel } from "react-icons/tb";
-
-import { ReactComponent as Cushion } from "../../assets/configurator/cushions.svg";
-import leg from "../../assets/configurator/legs (1).png";
-import leg1 from "../../assets/configurator/legs.png";
 import R1 from "../../assets/Renders/R1.png";
 import R2 from "../../assets/Renders/R2.png";
 import R3 from "../../assets/Renders/R3.png";
 import R4 from "../../assets/Renders/R4.png";
-import R5 from "../../assets/Renders/R5.png";
 import S1 from "../../assets/Sofa renders/R1.png";
 import S4 from "../../assets/Sofa renders/R4.png";
 import S3 from "../../assets/Sofa renders/R3.png";
@@ -17,7 +11,7 @@ import S2 from "../../assets/Sofa renders/R2.png";
 import metal from "../../assets/Sofa renders/M.png";
 import wood from "../../assets/Sofa renders/W.png";
 export const Options = [
-  { label: "Car", value: "Car", image: "/bmwX7.png" },
+  { label: "Car", value: "Car", image: R2 },
   {
     label: "Sofa",
     value: "SOfa",
@@ -31,33 +25,6 @@ export const Options = [
   },
 ];
 export const SofaOptions = [
-  {
-    label: "Cushions",
-    icon: <Cushion style={{ width: 50, height: 50, fill: "#0086a4" }} />,
-    subOptions: [
-      {
-        label: "Brown",
-        icon: <IoCarSportOutline size={20} color="#E0B778" />,
-        color: "#E0B778",
-        bg: "#E0B778", // dark contrast for white car
-      },
-      {
-        label: "Blue",
-        icon: <IoCarSportOutline size={20} color="#3A6EA5" />, // Slightly deeper blue
-        color: "#3A6EA5", // Denim Blue
-      },
-      {
-        label: "Black",
-        icon: <IoCarSportOutline size={20} color="#212121" />, // Charcoal Black
-        color: "#212121", // Charcoal
-      },
-      {
-        label: "Gray",
-        icon: <IoCarSportOutline size={20} color="#B0B0B0" />, // Light Gray
-        color: "#B0B0B0", // Silver Gray
-      },
-    ],
-  },
   {
     label: "Frame",
     icon: <img src={S4} className="w-20 h-10" alt="sofa" />,

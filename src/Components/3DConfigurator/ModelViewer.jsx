@@ -7,16 +7,14 @@ import ConfigSidebar from "./ConfigSidebar";
 import { handleExportUSDZ } from "../exporter.jsx";
 import hdri from "../../assets/brown_photostudio_01_2k.hdr";
 // import hdri from "../../assets/photo_studio_loft_hall_2k.hdr";
-import { SofaModel } from "./Sofa test.jsx"
-import { BMW } from "./BMW_final.jsx";
 import * as THREE from "three";
 import AutoCamera from "./autoCamera.jsx"
 import { useFrame } from '@react-three/fiber';
 import { Options } from "./config.js"
-import { generateMagicSquareNoise } from "three/examples/jsm/Addons.js";
 import QRCode from "react-qr-code";
 import { Model } from "./BMW.jsx"
 import { Sofa } from "./Sofa.jsx"
+import { Sofa1 } from "./Sofa1.jsx"
 const InteractiveModelViewer = () => {
     const [selectedOption, setSelectedOption] = useState(Options[0]);
     const [showQRScanner, setShowQRScanner] = useState(false);
@@ -88,6 +86,7 @@ const InteractiveModelViewer = () => {
         Frame: (color) => {
 
             SofeRef.current.Taylor_Sofa001.current.material.color.set(color);
+            SofeRef.current.Stands.current.material.color.set(color);
             setBg(color)
         },
         Cushions: (color) => {
@@ -222,7 +221,7 @@ const InteractiveModelViewer = () => {
                             {{
                                 "Fridge": <WineCooler />,
                                 "Car": <Model onRefsReady={handleRefsReady} />,
-                                "Sofa": <Sofa onRefsReady={handleRefsReady} Stand={metalStand} />,
+                                "Sofa": <Sofa1 onRefsReady={handleRefsReady} Stand={metalStand} />,
                             }[selectedOption.label] || null}
                         </group>
                     </Suspense>

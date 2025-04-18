@@ -79,7 +79,7 @@ export const ConfiguratorBar = ({ selectedOption, handleStandChange, handleColor
     }, [selectedOption]);
     return (
         barActive && (
-            <div className={`transition-all duration-500 ease-in-out transform flex flex-row justify-center items-center gap-4  w-auto  rounded-lg p-4  ${barActive ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
+            <div className={`transition-all duration-500 ease-in-out transform flex bg-gray-200 flex-row justify-center items-center gap-4  w-auto  rounded-lg p-4  ${barActive ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
                 }`}>
                 {selectedBar?.map((option, index) => (
                     <React.Fragment key={index}>

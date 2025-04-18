@@ -1,7 +1,7 @@
 /** @format */
 
 import React from 'react';
-import logo from '../../assets/logos/15.png';
+// import logo from '../../assets/logos/15.png';
 
 const AboutUs = () => {
   return (
